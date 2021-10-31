@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}InfoDesk Preferences
+			{% endblock %}
+		</title>
+		<meta name="robots" content="noindex">
+		<link rel="shortcut icon" type="image/jpg" href="{{ asset('media/favicon/favicon.ico') }}"/>
+		<link href="{{ asset('css/Bootstrap.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('css/Main.css') }}" rel="stylesheet"/>
+	</head>
+	<body onload="showSettings();">
+		{% block body %}
+			<div class="container">
+					{% include('gui/header/header.html.twig') %}
+
+				<div class="container-fluid">
+					<div class="row">
+
+						{% include('gui/navigation.html.twig') %}
+
+						<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+							<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+								<h1 class="h2">Settings</h1>
+								<h5>Use with care!</h5>
+							</div>
+							<div>
+								<p>All available Settings of app are located here. Please note that the ticker offset is only available in the run-in mode in this app version.</p>
+							</div>
+							<div id="txtHint"></div>
+							<form>
+								<div class="form-group">
+									<label>Basic reload of the app (in ms)</label>
+									<input class="form-control" id="basicReload" rows="1"></input>
+							</div>
+							<div class="form-group">
+								<label>Show only X first news</label>
+								<input class="form-control" id="newsNumber" rows="1"></input>
+						</div>
+						<div class="form-group">
+							<label>Ticker speed</label>
+							<input class="form-control" id="tickerSpeed" rows="1"></input>
+					</div>
+					<div class="form-group">
+						<label>Ticker orientation</label>
+						<select class="form-select" aria-label="Default orientation" id="tickerOrientation">
+							<option value="toLeft">To left</option>
+							<option value="toRight">To right</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Ticker offset</label>
+						<input disabled class="form-control" id="tickerOffset" rows="1"></input>
+
+				</div>
+				<div class="form-group">
+					<label>Ticker height in px</label>
+					<input class="form-control" id="tickerHeight" rows="1"></input>
+			</body>
+		</body>
+	</html>
+</div>
+	<div class="form-group">
+						<label>Activate ticker</label>
+						<select class="form-select" aria-label="Default orientation" id="showTicker">
+							<option value="1">Activated</option>
+							<option value="0">Deactivated</option>
+						</select>
+					</div>
+	
+<div class="form-group">
+						<label>Ticker Mode</label>
+						<select class="form-select" aria-label="Default orientation" id="tickerMode">
+							<option value="chain">Elements follow one and another immediately</option>
+							<option value="await">New element appears as soon as the previous one has disappeared completely</option>
+							<option value="smooth">New element appears as soon as the previous one starts to disappear</option>
+						</select>
+					</div>
+
+
+
+<div class="form-group"><label>Delay between slides</label><input class="form-control" id="slideDelay" rows="1"></input></div><input type="button" class="btn btn-primary" value="Save" onclick="saveSettings()"></form></main></div></div></div><script src="{{ asset('js/settings.js') }}"></script><script src="{{ asset('js/bootstrap/popper.min.js') }}"></script><script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script> {% endblock %}</body></html>

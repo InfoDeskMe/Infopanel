@@ -1,0 +1,23 @@
+{
+    "news0": {
+        "headline": "Headline news 1",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+        "url": "https:\/\/www.apple.com\/",
+        "image": "https://via.placeholder.com/1920x1080",
+        "id": "0"
+    },
+    "news1": {
+        "headline": "Headline news 2",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enimExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+        "url": "https:\/\/www.apple.com\/",
+        "image": "https://via.placeholder.com/1920x1080",
+        "id": "132132"
+    },
+    "news2": {
+        "headline": "Headline news 3",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "url": "https:\/\/www.finanzen.net\/",
+        "image": "https://via.placeholder.com/1920x1080",
+        "id": "123120"
+    }
+}

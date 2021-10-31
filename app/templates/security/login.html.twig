@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+		{% block title %}GUI Login
+		{% endblock %}
+		</title>
+		<meta name="robots" content="noindex">
+		<link rel="shortcut icon" type="image/jpg" href="{{ asset('media/favicon/favicon.ico') }}"/>
+		<link href="{{ asset('css/Bootstrap.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('css/Main.css') }}" rel="stylesheet"/>
+		{% block body %}
+
+	<div class="container">
+		<div class="row">
+	    	<div class="col">
+    		</div>
+	    	<div class="col">
+				<h2>InfoDesk Dashboard</h2>
+      				<div class="centrised">
+						<form method="post">
+							{% if error is defined %}
+							{% if error %}
+							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+							{% endif %}
+						{% endif %}
+						<label for="inputEmail">Login</label>
+						<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+						<label for="inputPassword">Password</label>
+						<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+						<button class="btn btn-lg btn-primary" type="submit">
+							Sign in
+						</button>
+						</form>
+					</div>
+    			</div>
+	    	<div class="col">
+    		</div>
+		</div>
+	</div>
+	{% if app.user %}
+		<script>
+			window.location.replace("/gui_overview");
+		</script>
+	{% endif %}
+{% endblock %}
+</head>
+</html>
