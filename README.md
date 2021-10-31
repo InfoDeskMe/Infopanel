@@ -57,7 +57,6 @@ installation_windows.bat
 ## Donate
 This software is absolutly free, but a very small donation would make me happy!
 
-<script src="https://liberapay.com/AntonS/widgets/button.js"></script>
 <noscript><a href="https://liberapay.com/AntonS/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
 
 ## License
