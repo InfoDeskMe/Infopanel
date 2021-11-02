@@ -57,6 +57,10 @@ installation_windows.bat
 ## Donate
 This software is absolutly free, but a very small donation would make me happy!
 
+[![PAYPAL](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?hosted_button_id=VE3KZYNP87DDW)
+
+or other options:
+
 <noscript><a href="https://liberapay.com/AntonS/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
 
 ## License
