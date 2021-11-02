@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/InfoDeskMe)
 
 ## About
-This Infopanel works on localhost:80 and shows such Information like Image, Title, Description and QR-Code that you can edit via the built-in edting tool (GUI). More over, you can upload your own images or link them from the Internet. The GUI generates the QR-Code with link automatically. The Infopanel GUI has a very simple role concept. As Admin, you can add some Editors so that they can sign in too. The editor role can only change / edit the information and has no access to the basic settings. The infopanel and its GUI are open source.
+This Infopanel works on localhost:80 and shows such Information like Image, Title, Description and QR-Code that you can edit via the built-in edting tool (GUI). Moreover, you can upload your own images or link them from the Internet. The GUI generates the QR-Code with link automatically. The Infopanel GUI has a very simple role concept. As Admin, you can add some Editors so that they can sign in too. The editor role can only change / edit the information and has no access to the basic settings. The infopanel and its GUI are open source.
 
 ## Screenshots
 ![Infopanel](https://i.postimg.cc/GLSsC8kn/2021-10-31-13-16-10.png)
