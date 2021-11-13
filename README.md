@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/InfoDeskMe)
 
 ## About
-This Infopanel works on localhost:80 and shows such Information like Image, Title, Description and QR-Code that you can edit via the built-in edting tool (GUI). Moreover, you can upload your own images or link them from the Internet. The GUI generates the QR-Code with link automatically. The Infopanel GUI has a very simple role concept. As Admin, you can add some Editors so that they can sign in too. The editor role can only change / edit the information and has no access to the basic settings. The infopanel and its GUI are open source.
+The simple infopanel is a free digital signage tool. It works on localhost:80 and shows such information like images, titles, description and QR-Codes that you can edit via the built-in edting tool (GUI). Moreover, you can upload your own images on server or link them from the Internet. The GUI generates some QR-Code with link automatically. The Infopanel GUI provides a very simple role concept. As Admin, you can add editors so that they can sign in too. The editor role can only change / edit the information and has no access to the basic settings. The infopanel and its GUI are open source and free to install on any devices capable with all modern browsers. IE 11 will not work. 
 
 ## Screenshots
 ![Infopanel](https://i.postimg.cc/GLSsC8kn/2021-10-31-13-16-10.png)
@@ -24,7 +24,7 @@ This Infopanel works on localhost:80 and shows such Information like Image, Titl
 | Backend | [Symfony](https://symfony.com/) PHP |
 
 ## Requirements
-- Docker must be installed and RUN before installation
+- Docker must have been installed and STARTED before installation
 - At least 1 Gb free space on Server if you do NOT want to use the built-in image upload feature. 
 
 ## Installation
@@ -40,6 +40,8 @@ Windows (as Administrator):
 ```sh
 installation_windows.bat
 ```
+
+Please note if you started an installation via the script and it failed you would not have an opportunity to install the app again. Anyway, you can also try all steps from the both shell scripts and just install the app manuelly. Otherwise, please redownload the app and try again. 
 
 ## After installation 
 - Go to your YOUR-SITE.COM or LOCALHOST:80 and if the installation has been successfully fineshed you will see the infopanel. 
