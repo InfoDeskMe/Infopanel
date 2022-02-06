@@ -8,6 +8,5 @@
     "tickerMode": "chain",
     "tickerHeight": 80,
     "showTicker": 1,
-    "slideDelay": 8000,
-    "layout_type": 0,
+    "slideDelay": 8000
 }
