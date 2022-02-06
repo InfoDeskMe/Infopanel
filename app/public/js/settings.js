@@ -1,5 +1,6 @@
 let basicReload = document.getElementById('basicReload');
 let newsNumber = document.getElementById('newsNumber');
+let layoutOrientation = document.getElementById('layoutOrientation');
 let tickerSpeed = document.getElementById('tickerSpeed');
 let tickerOrientation = document.getElementById('tickerOrientation');
 let tickerOffset = document.getElementById('tickerOffset');
@@ -19,6 +20,7 @@ function showSettings() {
         let data = JSON.parse(dataConfig)
         basicReload.value = data.generalReload
         newsNumber.value = data.newsNumber 
+        layoutOrientation.value = data.layout_type
         tickerSpeed.value = data.tickerSpeed
         tickerOrientation.value = data.tickerOrientation
         tickerOffset.value = data.tickerOffset
@@ -49,7 +51,9 @@ function saveSettings() {
     "api/save_settings?basicReload=" +
     basicReload.value +
     '&newsNumber=' + 
-    newsNumber.value + 
+    newsNumber.value +
+    '&layoutOrientation='+
+    layoutOrientation.value + 
     '&tickerSpeed=' + 
     tickerSpeed.value +
     '&tickerOrientation=' +

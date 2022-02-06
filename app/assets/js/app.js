@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Layout from './components/layout/Layout'
+import Layout from './components/layout/v1/Layout'
+import LayoutV2 from './components/layout/v2/LayoutV2'
 import '../css/Bootstrap.css'
 import '../css/app.css'
 import MoveTicker from './components/ticker/MoveTicker'
@@ -54,7 +55,7 @@ class App extends React.Component {
         }, CONFIG.generalReload)
         setInterval(() => {
           if (i < CONFIG.newsNumber) {
-            this.getData(i) // runs every 5 seconds.
+            this.getData(i)
             i++
           } else {
             i = 0
@@ -64,7 +65,6 @@ class App extends React.Component {
   }
 
   getData = (s) => {
-    // do something to fetch data from a remote API.
     fetch('/data.json', {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -122,16 +122,49 @@ class App extends React.Component {
       config,
     } = this.state
 
-    const renderTicker = () => {
+    const renderTicker = (s) => {
+      if (s == 1) {
+        return (
+          <MoveTicker
+            tickerDataArray={tickerDataArray}
+            height={config.tickerHeight}
+            speed={config.tickerSpeed}
+            direction={config.tickerOrientation}
+            mode={config.tickerMode}
+            offset={config.tickerOffset}
+          />
+        )
+      }       
+    }
+
+    const renderLayout = (m) => {
+      if (m == 0) {
+        return (
+          <Layout
+          header={headline}
+          content={content}
+          imageSrc={imageSrc}
+          url={url}
+          />
+          )
+      } else {
+        return (
+          <LayoutV2
+          header={headline}
+          content={content}
+          imageSrc={imageSrc}
+          url={url}
+          />
+          )
+      }
+    }
+
+    const prepareRendering = () => {
       return (
-        <MoveTicker
-          tickerDataArray={tickerDataArray}
-          height={config.tickerHeight}
-          speed={config.tickerSpeed}
-          direction={config.tickerOrientation}
-          mode={config.tickerMode}
-          offset={config.tickerOffset}
-        />
+        <div>
+          {renderTicker(config.showTicker)},
+          {renderLayout(config.layout_type)},
+        </div>
       )
     }
 
@@ -152,30 +185,11 @@ class App extends React.Component {
         </div>
       )
     } else {
-      if (config.showTicker == 1) {
-        return (
-          <div>
-            {renderTicker()},
-            <Layout
-              header={headline}
-              content={content}
-              imageSrc={imageSrc}
-              url={url}
-            />
-          </div>
-        )
-      } else {
-        return (
-          <div>
-            <Layout
-              header={headline}
-              content={content}
-              imageSrc={imageSrc}
-              url={url}
-            />
-          </div>
-        )
-      }
+      return (
+        <div>
+          {prepareRendering()}
+        </div>
+      )
     }
   }
 }

@@ -1,0 +1,8 @@
+----------
+v.1.0.3
+-> New layout added 
+   - Now it is possible to change the general layout of the slide app. Go to settings if you want to try it. 
+
+----------
+v.1.0.2
+-> Initial upload

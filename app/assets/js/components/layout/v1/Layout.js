@@ -13,7 +13,7 @@ class Layout extends Component {
               <div className="col">
                 <div className="fixedCol">
                 <h1 className="headerText">{this.props.header}</h1>
-                  <img src={this.props.imageSrc} alt=""></img>
+                  <img src={this.props.imageSrc} alt="" className="mainImage"></img>
                 </div>
               </div>
             </div>

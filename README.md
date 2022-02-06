@@ -28,7 +28,8 @@ The simple infopanel is a free digital signage tool. It works on localhost:80 an
 - At least 1 Gb free space on Server if you do NOT want to use the built-in image upload feature. 
 
 ## Installation
-If you get some questions about the database, you only need to answer "yes". 
+
+**It is possible that you will be asked about the database or admin account during the installation. In such a case, you only need to answer "yes" (It is necessary because I use a function for creating a default administrator account on the very first attempt).**
 
 Linux (as root): 
 ```sh
@@ -44,8 +45,8 @@ installation_windows.bat
 Please note if you started an installation via the script and it failed you would not have an opportunity to install the app again. Anyway, you can also try all steps from the both shell scripts and just install the app manuelly. Otherwise, please redownload the app and try again. 
 
 ## After installation 
-- Go to your YOUR-SITE.COM or LOCALHOST:80 and if the installation has been successfully fineshed you will see the infopanel. 
-- You can go to YOUR-SITE.COM/login or LOCALHOST:80/login, edit the slides, changing the configuration and add new informations as well. Also, you can activate or deactivate the ticker if necessary. 
+- Go to your YOUR-SITE.COM or http://LOCALHOST and if the installation has been successfully fineshed you will see the infopanel. 
+- Of course you can edit the content: You need to go to YOUR-SITE.COM/login or http://LOCALHOST/login, edit the slides, changing the configuration and add new informations as well. Also, you can activate or deactivate the ticker if necessary. 
 - LOGIN: admin@admin.com
 - PASSWORD: admin
 **DO NOT FORGET TO CHANGE THE PASSWORD AFTER THE VERY FIRST LOGIN!**
@@ -54,7 +55,6 @@ Please note if you started an installation via the script and it failed you woul
 - Please make sure that the `public` folder is not accessable from the Internet in case you would like to use this infopanel accessable via the Internet. You can adjust the necessary settings in `.development/nginx/default.conf`
 - You need to change the credentials saved in the docker-compose.yml or BETTER you need to extract them into the separate `.ENV` file. 
 - Good luck :-) 
-
 
 ## Donate
 This software is absolutly free, but a very small donation would make me happy!
@@ -76,3 +76,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Contact
 You can contact me via [anton @ anton-s .com] no spaces! I do not promise to answer ;-) 
+
+v.1.0.3

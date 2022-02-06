@@ -160,6 +160,7 @@ class Helpers extends AbstractController {
         $setting_basicReload = (int)$_REQUEST["basicReload"];
         $setting_newsNumber = (int)$_REQUEST["newsNumber"];
         $setting_tickerSpeed = (int)$_REQUEST["tickerSpeed"];
+        $setting_layoutOrientation = (int)$_REQUEST["layoutOrientation"];
         $setting_tickerOrientation = $_REQUEST["tickerOrientation"];
         $setting_tickerOffset = $_REQUEST["tickerOffset"];
         $setting_tickerMode = $_REQUEST["tickerMode"];
@@ -173,6 +174,7 @@ class Helpers extends AbstractController {
             $json_arr = array(
                    "generalReload" => $setting_basicReload,
                    "newsNumber" => $setting_newsNumber,
+                   "layout_type" => $setting_layoutOrientation,
                    "tickerSpeed" => $setting_tickerSpeed,
                    "tickerOrientation" => $setting_tickerOrientation,
                    "tickerOffset" => $setting_tickerOffset,
@@ -187,6 +189,7 @@ class Helpers extends AbstractController {
             $json = json_encode(array(
                     "generalReload" => 60000,
                     "newsNumber" => 4,
+                    "layout_type" => 0,
                     "tickerSpeed" => 10,
                     "tickerOrientation" => 'toLeft',
                     "tickerOffset" => 'run-in',

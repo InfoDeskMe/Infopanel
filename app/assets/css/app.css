@@ -1,9 +1,19 @@
-
-
-h1 {
+  .headerText {
     position: absolute;
-  /*  padding-top: calc(100vh - 75% ); */
     margin-top: calc(100vh - 20%);
+    max-width: calc(100% - 20%);
+    font-size: 82px; 
+    font-weight: 1900;
+    color: #ffffff;
+    background-color: #000000;
+    z-index: 999999;
+    margin-bottom: 0px!important;
+    word-wrap: break-word;
+  }
+
+  .headerTextV2 {
+    position: absolute;
+    margin-top: calc(100vh - 40%);
     max-width: calc(100% - 20%);
     font-size: 82px; 
     font-weight: 1900;
@@ -15,12 +25,12 @@ h1 {
   }
   
   @media screen and (max-width: 1921px) {
-    h1 {
+    .headerText {
       font-size: 66px;
     }
   }
 
-  img {
+  .mainImage {
     width: 100%;
     opacity: 0.5;
     position: relative; 
@@ -28,20 +38,24 @@ h1 {
     height: 102vh;
     overflow: auto;
   }
-  
-  p {
-    margin-top: 50px!important;
-    font-size: 30px;
-    display: inline;
-    display: -webkit-box;
-    -webkit-line-clamp: 10;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+
+  .mainImageV2 {
+    width: 100%;
+    opacity: 0.5;
+    position: relative; 
+    max-height: calc(100vh - 1px);
+    overflow: auto;
+    margin-top: -20px;
   }
   
   svg {
     width: 100%!important;
     height: 100%!important;
+  }
+
+  .svgFrame {
+    max-width: 256px;
+    max-height: 256px;
   }
 
   .fixedCol {
@@ -144,7 +158,6 @@ h1 {
 
 
 .backgroundTicker {
-  /* height: calc(100vh - 95%); */
   background-color: #000000;
 }
 
@@ -159,6 +172,12 @@ h1 {
   padding-left: 60px;
 }
 
+.qr_codeV2 {
+  top: calc(100% - 80%);
+  padding-top: 0;
+  padding-left: 40%;
+}
+
 @media screen and (max-width: 1921px) {
   .qr_code {
     padding-left: 20px;
@@ -166,6 +185,23 @@ h1 {
 }
 
 .frameText {
+  margin-top: 50px!important;
+  display: inline;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 48px;
+  word-wrap: break-word;
+}
+
+.frameTextV2 {
+  margin-top: 50px!important;
+  display: inline;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font-size: 48px;
   word-wrap: break-word;
 }
@@ -175,7 +211,6 @@ h1 {
     font-size: 38px;
   }
 }
-
 
 .ticker {
   padding: 0rem!important;
@@ -188,4 +223,13 @@ h1 {
 
 span {
   font-size: 48px;
+}
+
+.bottomBlock {
+  position:absolute;
+  margin-top: -420px;
+  max-height: 380px;
+  height: 380px;
+  z-index: 999999;
+  background-color: #ffffff;
 }

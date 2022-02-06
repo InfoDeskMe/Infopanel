@@ -13,10 +13,11 @@
 		<script src="{{ asset('js/showNews.js') }}"></script>
 		{% block body %}
 		<body onload="getNews()">
+		<div id="banner"></div>
 			<div class="container" >
 					{% include('gui/header/header.html.twig') %}
-
 				<div class="container-fluid">
+				
 					<div class="row">
 
 						{% include('gui/navigation.html.twig') %}
@@ -33,6 +34,7 @@
 					</head>
 				</html>
 			</div>
+			<script src="{{ asset('js/banner.js') }}"></script>
 		</body>
 	</html>
 </div></div>
