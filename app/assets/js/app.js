@@ -173,7 +173,7 @@ class App extends React.Component {
       return <div>Error because {error.message}</div>
     } else if (!isLoaded) {
       return (
-        <div class="lds-roller">
+        <div className="lds-roller">
           <div></div>
           <div></div>
           <div></div>

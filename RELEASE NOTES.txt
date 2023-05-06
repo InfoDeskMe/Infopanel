@@ -1,3 +1,7 @@
+v.1.0.4
+-> Some minor fixes
+-> The installation scripts have been updated.
+
 ----------
 v.1.0.3
 -> New layout added 

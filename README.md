@@ -2,6 +2,9 @@
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/InfoDeskMe)
 
+## Web
+https://www.simple-infopanel.com
+
 ## About
 The simple infopanel is a free digital signage tool. It works on localhost:80 and shows such information like images, titles, description and QR-Codes that you can edit via the built-in edting tool (GUI). Moreover, you can upload your own images on server or link them from the Internet. The GUI generates some QR-Code with link automatically. The Infopanel GUI provides a very simple role concept. As Admin, you can add editors so that they can sign in too. The editor role can only change / edit the information and has no access to the basic settings. The infopanel and its GUI are open source and free to install on any devices capable with all modern browsers. IE 11 will not work. 
 
@@ -25,6 +28,7 @@ The simple infopanel is a free digital signage tool. It works on localhost:80 an
 
 ## Requirements
 - Docker must have been installed and STARTED before installation
+- Docker composer must have been installed 
 - At least 1 Gb free space on Server if you do NOT want to use the built-in image upload feature. 
 
 ## Installation
@@ -39,7 +43,7 @@ chmod +x ./install_linux.sh
 
 Windows (as Administrator): 
 ```sh
-installation_windows.bat
+install_windows.bat
 ```
 
 Please note if you started an installation via the script and it failed you would not have an opportunity to install the app again. Anyway, you can also try all steps from the both shell scripts and just install the app manuelly. Otherwise, please redownload the app and try again. 
@@ -77,4 +81,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Contact
 You can contact me via [anton @ anton-s .com] no spaces! I do not promise to answer ;-) 
 
-v.1.0.3
+v.1.0.4

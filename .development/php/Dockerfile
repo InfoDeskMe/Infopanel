@@ -13,7 +13,7 @@ WORKDIR /var/www/symfony_docker
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash
-RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 RUN apt install -y npm
 RUN apt upgrade -y
 #RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - 
