@@ -9,8 +9,8 @@ COPY  config.json.dist config.json
 COPY  data_ticker.json.dist data_ticker.json
 COPY  data.json.dist data.json
 cd ..\..\
-docker-compose build
-docker-compose up -d
+docker compose build
+docker compose up -d
 echo *************************************************
 echo The installation is still in progress. Please wait...
 echo *************************************************

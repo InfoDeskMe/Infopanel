@@ -81,4 +81,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Contact
 You can contact me via [anton @ anton-s .com] no spaces! I do not promise to answer ;-) 
 
-v.1.0.4
+v.1.0.6
