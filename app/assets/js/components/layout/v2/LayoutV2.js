@@ -2,6 +2,19 @@ import React from 'react'
 import QRCode from 'react-qr-code'
 
 function LayoutV2(props) {
+  const videoRef = useRef();
+
+  const sourceEndingHelper = () => {
+    let ending = props.imageSrc.slice(-3);
+    if (ending === 'mp4') {
+      return true;
+    } else return false; 
+  };
+
+  useEffect(() => {    
+    videoRef.current?.load();
+  }, [props.imageSrc]);
+
     return (
       <div>
         <div className="container-fluid">
@@ -10,7 +23,7 @@ function LayoutV2(props) {
               <div className="">
                 <div className="fixedCol">
                 <h1 className="headerTextV2">{props.header}</h1>
-                  <img src={props.imageSrc} alt="" class="mainImageV2"></img>
+                  {sourceEndingHelper() ? <video loop autoPlay muted className="mainImage" ref={videoRef}><source src={props.imageSrc} type="video/mp4" /></video> : <img src={props.imageSrc} alt="" class="mainImageV2"></img>}
                 </div>
               </div>
             </div>

@@ -24,7 +24,6 @@ function Layout(props) {
                 <div className="fixedCol">
                 <h1 className="headerText">{props.header}</h1>
                   {sourceEndingHelper() ? <video loop autoPlay muted className="mainImage" ref={videoRef}><source src={props.imageSrc} type="video/mp4" /></video> : <img src={props.imageSrc} alt="" className="mainImage"></img>}  
-                  {/* <img src={props.imageSrc} alt="" className="mainImage"></img> */}
                 </div>
               </div>
             </div>
