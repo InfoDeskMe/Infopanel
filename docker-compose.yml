@@ -16,6 +16,7 @@ services:
       - ./.development/mysql:/var/lib/mysql
     php:
      image: ghcr.io/infodeskme/infopanel/infopanel:0.0.1
+     container_name: php
      ports:
      - '9000:9000'
      volumes:
