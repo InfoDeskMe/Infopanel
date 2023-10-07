@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import QRCode from 'react-qr-code'
 
 function LayoutV2(props) {
@@ -23,7 +23,7 @@ function LayoutV2(props) {
               <div className="">
                 <div className="fixedCol">
                 <h1 className="headerTextV2">{props.header}</h1>
-                  {sourceEndingHelper() ? <video loop autoPlay muted className="mainImage" ref={videoRef}><source src={props.imageSrc} type="video/mp4" /></video> : <img src={props.imageSrc} alt="" class="mainImageV2"></img>}
+                  {sourceEndingHelper() ? <video loop autoPlay muted className="mainImageV2" ref={videoRef}><source src={props.imageSrc} type="video/mp4" /></video> : <img src={props.imageSrc} alt="" class="mainImageV2"></img>}
                 </div>
               </div>
             </div>
