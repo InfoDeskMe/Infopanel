@@ -79,7 +79,6 @@ function loadTickerNews() {
       xmlhttp.send()
     }
       catch {
-        console.log("found");
       }   
 }
 

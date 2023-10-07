@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 import QRCode from 'react-qr-code'
 
-
-class LayoutV2 extends Component {
-  render() {
+function LayoutV2(props) {
     return (
       <div>
         <div className="container-fluid">
@@ -12,8 +9,8 @@ class LayoutV2 extends Component {
             <div className="">
               <div className="">
                 <div className="fixedCol">
-                <h1 className="headerTextV2">{this.props.header}</h1>
-                  <img src={this.props.imageSrc} alt="" class="mainImageV2"></img>
+                <h1 className="headerTextV2">{props.header}</h1>
+                  <img src={props.imageSrc} alt="" class="mainImageV2"></img>
                 </div>
               </div>
             </div>
@@ -22,12 +19,12 @@ class LayoutV2 extends Component {
               <div className="qr_codeV2">
                 <span>Read more:</span>
                 <div className="svgFrame">
-                  <QRCode value={this.props.url} className=""/>
+                  <QRCode value={props.url} className=""/>
                 </div>
               </div>
               </div>
               <div className="col-8">
-                <p className="frameTextV2">{this.props.content}</p>
+                <p className="frameTextV2">{props.content}</p>
               </div>
             </div>
           </div>
@@ -35,6 +32,5 @@ class LayoutV2 extends Component {
       </div>
     )
   }
-}
 
 export default LayoutV2

@@ -23,7 +23,6 @@ setInterval(() => {
         newsData.push(`${data[key].content}`)
     });
     } catch (error) {
-      console.log('Error:', error)
     }
   })()
 }, 500)
@@ -43,7 +42,6 @@ setInterval(() => {
       const data = await response.json()
       CONFIG = data
     } catch (error) {
-      console.log('Error:', error)
     }
   })()
 }, 2000)

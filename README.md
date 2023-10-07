@@ -6,7 +6,7 @@
 https://www.simple-infopanel.com
 
 ## About
-The simple infopanel is a free digital signage tool. It works on localhost:80 and shows such information like images, titles, description and QR-Codes that you can edit via the built-in edting tool (GUI). Moreover, you can upload your own images on server or link them from the Internet. The GUI generates some QR-Code with link automatically. The Infopanel GUI provides a very simple role concept. As Admin, you can add editors so that they can sign in too. The editor role can only change / edit the information and has no access to the basic settings. The infopanel and its GUI are open source and free to install on any devices capable with all modern browsers. IE 11 will not work. 
+The simple infopanel is a free digital signage tool. It works on localhost:80 and shows such information like images or videos, titles, description and QR-Codes that you can edit via the built-in edting tool (GUI). Moreover, you can upload your own images on server or link them from the Internet. The GUI generates some QR-Code with link automatically. The Infopanel GUI provides a very simple role concept. As Admin, you can add editors so that they can sign in too. The editor role can only change / edit the information and has no access to the basic settings. The infopanel and its GUI are open source and free to install on any devices capable with all modern browsers. IE 11 will not work. 
 
 ## Screenshots
 ![Infopanel](https://i.postimg.cc/GLSsC8kn/2021-10-31-13-16-10.png)
@@ -81,4 +81,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Contact
 You can contact me via [anton @ anton-s .com] no spaces! I do not promise to answer ;-) 
 
-v.1.0.6
+v.1.0.7

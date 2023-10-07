@@ -1,3 +1,8 @@
+v.1.0.7
+-> Rewrite of class components to functional components 
+-> Added video support for the app
+   - It is possible to upload and show videos. 
+
 v.1.0.4
 -> Some minor fixes
 -> The installation scripts have been updated.

@@ -22,7 +22,7 @@ selectFiles.addEventListener(
 
 function changeImage() {
   let file = document.querySelector('#myfile').files[0]
-  let allowed_mime_types = ['image/jpeg', 'image/png']
+  let allowed_mime_types = ['image/jpeg', 'image/png', 'video/mp4']
   let allowed_size_mb = 2
 
   if (allowed_mime_types.indexOf(file.type) == -1) {
@@ -59,7 +59,6 @@ async function uploadFile() {
 
 async function deleteFile() {
   var fileToDelete = fileName.name
-  console.log(fileToDelete)
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -108,23 +107,34 @@ async function deleteImage(id) {
 }
 
 async function showAvailableImages() {
-  let filesArea = document.getElementById('selectFileArea')
-  let xhttp = new XMLHttpRequest()
+  let filesArea = document.getElementById('selectFileArea');
+  let xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      let parseData = JSON.parse(this.responseText)
-      let data = JSON.parse(parseData)
-      let countFiles = Object.keys(data).length
+      let parseData = JSON.parse(this.responseText);
+      let data = JSON.parse(parseData);
+      let countFiles = Object.keys(data).length;
+
       if (countFiles !== 0) {
-        filesArea.innerHTML = ''
+        filesArea.innerHTML = '';
+
         for (let i = 0; i < countFiles; i++) {
-          var m = randomId(5)
+          var m = randomId(5);
+          function checkMimeType(num) {
+            if (data[num].slice(-3) !== 'mp4') {
+              return '<img alt="' + data[i] + '" class="prerenderImage" src=\"uploads/images/' + data[i] +  '\">'
+            } else {
+              return '<p class="prerenderImage">' + data[i] + '</p>'
+            }
+          };
+
           filesArea.innerHTML +=
             '<div class="imageBlock" id="' + m +'"> \
               <div class="form-check"> \
                  <input class="form-check-input" type="radio" name="image" id="flexRadioDefault2" value="' + data[i] + '" onClick="document.getElementById(\'closeModal\').disabled = false"> \
-               </div> \
-               <img class="prerenderImage" src=\"uploads/images/' + data[i] +  '\"> \
+               </div>'  
+               + checkMimeType(i); + '\
+                \
                <a href=\'#\' onclick="deleteImage(' + m + ')" > \
                  <button type=\"button\" class=\"btn-close btn-place\" aria-label=\"Close\" ></button></a>\
             </div>'

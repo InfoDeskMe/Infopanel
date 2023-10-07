@@ -46,7 +46,7 @@ function getNews() {
                     <p>' +
             newsUrls[i] +
             '</p>\
-                    <h6>Image URL:</h6>\
+                    <h6>Image / Video URL:</h6>\
                     <p>' +
             newsImages[i] +
             '</p>\
@@ -58,7 +58,6 @@ function getNews() {
     xmlhttp.open('GET', 'api/read_config')
     xmlhttp.send()
   } catch {
-    console.log('found')
   }
 }
 
