@@ -17,14 +17,9 @@ services:
      - symfony
 
     php:
-<<<<<<< HEAD
      container_name: backend_infopanel
      build:
       context: ./backend
-=======
-     container_name: php
-     image: infodeskme/simpleinfopanel:latest
->>>>>>> 9b759b1b08d3ad44bc33ec046c0bd9690f899810
      ports:
      - '9000:9000'
      restart: always
@@ -62,7 +57,6 @@ services:
      depends_on:
      - php
      - database
-<<<<<<< HEAD
      - frontend
      networks:
      - symfony
@@ -81,5 +75,3 @@ services:
 networks:
   symfony:
     driver: bridge
-=======
->>>>>>> 9b759b1b08d3ad44bc33ec046c0bd9690f899810
