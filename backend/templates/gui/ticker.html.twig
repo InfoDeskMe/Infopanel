@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}InfoDesk Preferences
+			{% endblock %}
+		</title>
+		<meta name="robots" content="noindex">
+		<link rel="shortcut icon" type="image/jpg" href="{{ asset('media/favicon/favicon.ico') }}"/>
+		<link href="{{ asset('css/Bootstrap.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('css/Main.css') }}" rel="stylesheet"/>
+		<body onload="loadTickerNews()">
+		{% block body %}
+			<div class="container">
+					{% include('gui/header/header.html.twig') %}
+				<div class="container-fluid">
+					<div class="row">
+						{% include('gui/navigation.html.twig') %}
+						<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+							<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+								<h1 class="h2">Ticker</h1>
+							</div>
+								<p>You can add and edit ticker news here. Please note that the ticker can be activated in the <a href="/gui_settings">settings</a>.</p>
+							<div>
+								<div id="txtHint"></div>		
+									<form>
+										<div class="guiGroup">
+											<div class="form-group">
+												<h4>Add ticker news</h4>
+												<textarea class="form-control" id="addTickerNews" rows="2"></textarea>
+						        			</div>
+										</div>
+									</form>
+								<br>
+								<button class="btn btn-primary" onclick="saveTicker()">Save</button>
+								<br>
+								<br>
+								<hr>
+								<h4>Available Ticker news</h4>
+								<div id="contentTicker"></div>
+							</div>
+			</main>
+		</head>
+	</html>
+</div></div></div><script src="{{ asset('js/ticker.js') }}"></script>{% endblock %}</body></head></html>

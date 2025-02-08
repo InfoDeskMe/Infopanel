@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}InfoDesk Preferences
+			{% endblock %}
+		</title>
+		<meta name="robots" content="noindex">
+		<link rel="shortcut icon" type="image/jpg" href="{{ asset('media/favicon/favicon.ico') }}"/>
+		<link href="{{ asset('css/Bootstrap.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('css/Main.css') }}" rel="stylesheet"/>
+	</head>
+<body>	
+		{% block body %}
+			<div class="container">
+				{% include('gui/header/header.html.twig') %}
+
+				<div class="container-fluid">
+					<div class="row">
+
+						{% include('gui/navigation.html.twig') %}
+
+						<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+							<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+								<h1 class="h2">News</h1>
+							</div>
+							<div>
+								<p>You can add news here. Please note that all fields are required. If necessary, you can upload a new image via the button or just use a direct url like "https://HOST.com/image" In such a case, it may be necessary to solve a CORS problem.</p>
+							</div>
+							<div id="txtHint"></div>
+							<div class="guiGroup">
+								<div class="form-group">
+									<h4>Headline</h4>
+									<input class="form-control" id="headline" rows="1" maxlength="140"></input>
+							</div>
+							<div class="form-group">
+								<h4>Content</h4>
+								<textarea class="form-control" id="content" rows="2" maxlength="140"></textarea>
+							</div>
+							<div class="form-group">
+								<h4>URL for QR-Code</h4>
+								<input class="form-control" id="url" rows="1"></input>
+						</div>
+						<div class="form-group">
+							<h4>Add Image / Video URL or upload a new .jpg, .png or .mp4</h4>
+							<input class="form-control" id="image" rows="1"></input>
+							<form id="form" action="javascript:uploadFile()" method="post" enctype="multipart/form-data">
+       						<div>
+           						<input class="myfile" type="file" name="myfile" id="myfile" accept="image/png, image/jpeg, video/mp4" value="Select jpeg or png to upload">
+								<button onInput="changeImage()" class="uploadButton" type="submit" id="selectFile">Upload</button>
+								<!-- Button trigger modal -->
+									<br>
+									<button type="button" class="btn-outline-secondary" id="selectFiles" data-bs-toggle="modal" data-bs-target="#selectImagesModal">
+									Select Images / Video from Gallery 
+									</button>
+									<!-- Modal -->
+									<div class="modal fade" id="selectImagesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+										<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Select Images / Videos</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body" id="selectFileArea">
+											No Images found on server!
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-primary" id="closeModal" onclick="putSelectedImage()" disabled>Select</button>
+										</div>
+										</div>
+									</div>
+									</div>
+								<div id="uploadArea">
+								</div>
+ 							 </form>
+        					</div>
+        						
+					</div>
+					<button class="btn btn-primary" onclick="saveNews()">Save</button>
+				</div>
+
+			</main>
+</div></div></div><script src="{{ asset('js/bootstrap/popper.min.js') }}"></script><script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script><script src="{{ asset('js/gui.js') }}"></script><script src="{{ asset('js/upload.js') }}"></script>{% endblock %}</body></html>

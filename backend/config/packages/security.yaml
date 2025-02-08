@@ -1,0 +1,55 @@
+security:
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
+ #   enable_authenticator_manager: true
+ #   password_hashers:
+ #       App\Entity\Admin:
+ #           algorithm: bcrypt
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        users:
+            entity: 
+                class: App\Entity\Admin
+                property: email
+        app_user_provider:
+            entity:
+                class: App\Entity\Admin
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: app_user_provider
+     #       custom_authenticator: App\Security\LoginFormAuthenticator
+            access_denied_handler: App\Security\AccessDeniedHandler
+            form_login:
+                # "app_login" is the name of the route created previously
+                login_path: app_login
+                check_path: app_login
+            logout:
+                path: app_logout
+                
+   #     secured_area:
+   #         form_login:    
+   #             enable_csrf: true
+
+                # where to redirect after logout
+                # target: app_any_route
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/gui_users, roles: ROLE_ADMIN }
+         - { path: ^/gui_settings, roles: ROLE_ADMIN }
+

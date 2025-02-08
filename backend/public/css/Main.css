@@ -1,0 +1,263 @@
+
+.form-group > textarea input select {
+    margin-top: 20px;
+}
+
+.donateBanner {
+    background-color: #ffffff;
+    z-index: 9999999;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    position: fixed;
+    max-width: 980px;
+    max-height: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 35px;
+  }
+
+.btn-primary {
+    margin-top: 20px;
+    float: right;
+}
+
+.btn-place {
+    float: right;
+    padding-left: 1.5rem;
+    padding-top: 1.5rem;
+    margin-bottom: 1rem; 
+}
+
+.btn-lg {
+    border-radius: 1rem;
+}
+
+.btn-sm {
+    margin-top: 0.3rem;
+    margin-left: 0.5rem;
+}
+
+.btn-outline-primary {
+    float: right;
+}
+
+#b {
+    padding-left: 1.5rem;
+    padding-top: 0.85rem;
+    margin-bottom: 1rem;  
+}
+
+#newsOverview {
+    padding: 1rem;
+    background-repeat: no-repeat, repeat;
+    background-position: 25px 25px;
+    background-size: 220px;
+    min-height: 100px;
+    max-width: 980px;
+    word-break: break-word;
+}
+
+.card {
+    margin: 1rem;
+    display: inline-table;
+    min-width: 980px;
+    max-width: 980px;
+    border: 3px solid rgba(0,0,0,.125);
+    border-radius: 1.25rem;
+    box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109), 0 1px 1px rgba(128, 128, 128, 0.155), 0 2.1px 2.1px rgba(128, 128, 128, 0.4), 0 4.4px 4.4px rgba(128, 128, 128, 0.241), 0 12px 12px rgba(128, 128, 128, 0.35);
+}
+
+.card-body {
+    margin-top: 1rem;
+    padding: 1rem 4rem;
+}
+
+div.centrised button {
+    top: 20%;
+    left: 33%;
+    margin-top: 2rem;
+    position: relative;
+    float: left;
+}
+
+.centrised {
+    margin-top: 3rem;
+    padding: 3rem;
+}
+
+#contentTicker {
+    margin-top: 2.5rem;
+}
+
+.customUserBorder {
+    margin-top: 4rem;
+    border: 3px solid rgba(0,0,0,.125);
+    border-radius: 1.25rem;
+    text-align: center;
+    box-shadow: 0 0.1px 0.1px rgba(128, 128, 128, 0.109), 0 1px 1px rgba(128, 128, 128, 0.155), 0 2.1px 2.1px rgba(128, 128, 128, 0.4), 0 4.4px 4.4px rgba(128, 128, 128, 0.241), 0 12px 12px rgba(128, 128, 128, 0.35);
+}
+
+.customUser {
+    margin-top: 1.8rem;
+    display: inherit;
+    margin-bottom: 2rem;
+    margin-right: 20px;
+}
+
+.customUser > * {
+    float: right;
+    margin-right: 0rem;
+    margin-top: 0.75rem;
+  }
+
+.error {
+    color: coral;
+}
+
+input.form-control {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.imageBlock {
+    display: inline-flex;
+    padding: 1rem;
+    border: 2px solid;
+    border-radius: 5px;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+div.centrised form {
+    text-align: center;
+    background: #fafbff;
+    padding: 55px 40px;
+    color: black;
+    border-radius: 10px;
+    box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109), 0 1px 1px rgba(128, 128, 128, 0.155), 0 2.1px 2.1px rgba(128, 128, 128, 0.4), 0 4.4px 4.4px rgba(128, 128, 128, 0.241), 0 12px 12px rgba(128, 128, 128, 0.35);
+
+}
+
+h4.centrised {
+    margin-bottom: 1rem;
+}
+
+.hidden {
+    display: none;
+    color: red;
+}
+
+hr {
+    margin: 4.5rem 0 4rem 0;
+}
+
+nav {
+     height:5px;
+    color: #6c757d;
+}
+
+div.position-sticky > .px-3 {
+    padding-left: 0!important ;
+}
+
+.navbar {
+    padding: 2rem!important;
+}
+
+.form-group > label {
+    margin-top: 1rem;
+}
+
+main h6 {
+    font-weight: 900;
+    margin-top: 1rem;
+}
+
+.modalDiv > select, input {
+    margin-top: 0.5rem;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.modalDiv > label {
+    font-weight: 900;
+}
+
+#myfile {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+form label {
+    font-weight: 900;
+}
+
+.form-group select {
+    margin-bottom: 1rem;
+}
+
+div.form-group textarea {
+    margin-bottom: 1rem;
+}
+
+.form-group select {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#addTickerNews {
+    margin-top: 2rem;
+}
+
+h2 {
+    margin-top: 5rem;
+    text-align: center;
+}
+
+h4 {
+    font-weight: 400;
+}
+
+.position-sticky {
+    position: fixed !important; 
+}
+
+.prerenderImage {
+    width: 100%;
+    height: auto;
+    padding-left: 2.5rem;
+    padding-right: 0.5rem;
+}
+
+.users {
+    padding-left: 0.2rem;
+    margin-top: 6rem;
+}
+
+.uploadButton {
+    visibility: hidden;
+}
+
+#uploadArea {
+    display: inline-block;
+}
+
+.logoutButton {
+    margin-top: 1.25rem;
+    padding: .5rem 1rem;
+    margin-left: 0.2rem;
+}
+
+.guiGroup {
+    margin-top: 3rem;
+}
+
+.guiGroup .form-group {
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109), 0 1px 1px rgba(128, 128, 128, 0.155), 0 2.1px 2.1px rgba(128, 128, 128, 0.4), 0 4.4px 4.4px rgba(128, 128, 128, 0.241), 0 12px 12px rgba(128, 128, 128, 0.35);
+    border: 3px solid rgba(0,0,0,.125);
+    border-radius: 1.25rem;
+}
+
