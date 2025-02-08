@@ -106,4 +106,8 @@ This Agreement shall be governed by and construed in accordance with the laws of
 8. Contact Information
 For any questions or concerns regarding this Agreement, please contact [anton @ anton-s .com].
 
+<<<<<<< HEAD
 v.1.0.8
+=======
+v.1.0.7
+>>>>>>> 9b759b1b08d3ad44bc33ec046c0bd9690f899810

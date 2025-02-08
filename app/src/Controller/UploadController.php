@@ -24,7 +24,7 @@ class UploadController extends AbstractController
     public function index(Request $request, string $uploadDir, FileUploader $uploader, LoggerInterface $logger): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $allowed_file_types = ['image/jpeg', 'image/png'];
+        $allowed_file_types = ['image/jpeg', 'image/png', 'video/mp4'];
         $allowed_size_mb = 2; 
         $file = $request->files->get('file');
         $file_size = $_FILES['file']['size'];

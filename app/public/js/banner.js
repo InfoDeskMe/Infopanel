@@ -3,7 +3,6 @@ let backgroundLayout = document.getElementsByClassName('container')[0]
 
 function showDonateBanner() {
     if (document.cookie.split(';').filter((item) => item.trim().startsWith('bannersi=')).length) {
-        console.log('The cookie "bannersi" exists')
     } else {
         backgroundLayout.style.filter = "blur(8px)"; 
         

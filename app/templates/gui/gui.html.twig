@@ -43,23 +43,23 @@
 								<input class="form-control" id="url" rows="1"></input>
 						</div>
 						<div class="form-group">
-							<h4>Add Image link or upload a new jpg / png</h4>
+							<h4>Add Image / Video URL or upload a new .jpg, .png or .mp4</h4>
 							<input class="form-control" id="image" rows="1"></input>
 							<form id="form" action="javascript:uploadFile()" method="post" enctype="multipart/form-data">
        						<div>
-           						<input class="myfile" type="file" name="myfile" id="myfile" accept="image/png, image/jpeg" value="Select jpeg or png to upload">
+           						<input class="myfile" type="file" name="myfile" id="myfile" accept="image/png, image/jpeg, video/mp4" value="Select jpeg or png to upload">
 								<button onInput="changeImage()" class="uploadButton" type="submit" id="selectFile">Upload</button>
 								<!-- Button trigger modal -->
 									<br>
 									<button type="button" class="btn-outline-secondary" id="selectFiles" data-bs-toggle="modal" data-bs-target="#selectImagesModal">
-									Select Images from Gallery 
+									Select Images / Video from Gallery 
 									</button>
 									<!-- Modal -->
 									<div class="modal fade" id="selectImagesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 										<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel">Select Images</h5>
+											<h5 class="modal-title" id="exampleModalLabel">Select Images / Videos</h5>
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body" id="selectFileArea">
