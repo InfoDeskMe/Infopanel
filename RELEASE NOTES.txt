@@ -1,3 +1,7 @@
+v.1.0.9
+-> NGINX Docker Container rewrite
+   - httpd container deleted as not necessary 
+
 v.1.0.8
 -> Global technical rebuild
    - From now on, there are two separate docker containers for the frontend and backend. 

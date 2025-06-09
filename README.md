@@ -49,6 +49,13 @@ chmod +x ./install_linux.sh
 ./install_linux.sh
 ```
 
+Important notice for Linux Servers (!): 
+In some cases it can be like you did everything right and the simple infopanel works but you cannot change any settings or news besides it seems to save. Well, it happens because the backend do not have enough rights to write a new config file. You can do the following:
+```sh
+chown -R www-data:www-data YOUR_PROJECT_FOLDER
+chmod -R 755 YOUR_PROJECT_FOLDER
+``` 
+
 Windows (as Administrator !!!): 
 ```sh
 install_windows.bat
@@ -106,4 +113,4 @@ This Agreement shall be governed by and construed in accordance with the laws of
 8. Contact Information
 For any questions or concerns regarding this Agreement, please contact [anton @ anton-s .com].
 
-v.1.0.8
+v.1.0.9
