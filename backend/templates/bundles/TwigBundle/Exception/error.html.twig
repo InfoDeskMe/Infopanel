@@ -8,14 +8,14 @@
 		</title>
 		<link href="{{ asset('css/Bootstrap.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('css/Main.css') }}" rel="stylesheet"/>
+	</head>
+	<body>
 		{% block body %}
-
-{% block body %}
-    <div>
-        <p>
-            There was a problem: {{ exception.message }}
-        </p>
-    </div>
-{% endblock %}
-</head>
+		<div>
+			<p>
+				There was a problem: {{ status_text }}
+			</p>
+		</div>
+		{% endblock %}
+	</body>
 </html>

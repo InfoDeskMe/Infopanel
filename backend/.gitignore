@@ -23,3 +23,11 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+# data.json, config.json, data_ticker.json and their .lock/.tmp/.bak siblings
+# live under var/data/, already covered by the /var/ rule above.
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###

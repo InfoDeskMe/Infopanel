@@ -1,5 +1,4 @@
 let tmpNr = ''
-let xmlhttp = new XMLHttpRequest()
 var newPassword = document.getElementById('newPassword')
 var newPasswordRepeat = document.getElementById('newPasswordRepeat')
 var buttonSubmit = document.getElementById('btnChange')
@@ -38,15 +37,14 @@ function checkIfEmptyUser() {
 }
 
 function showUsers() {
-  xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      let parseData = JSON.parse(this.responseText)
-      let data = JSON.parse(parseData)
+  apiFetch('api/show_users')
+    .then((response) => response.json())
+    .then((data) => {
       let dataLength = data.length
       for (let i = 0; i < dataLength; i++) {
-        let tmpId = makeid(5)
+        let tmpId = makeId(5)
         let role = ''
-        if (JSON.parse(data[i].role).role == 'ROLE_EDITOR') {
+        if (data[i].role.includes('ROLE_EDITOR')) {
           role = 'Editor'
         } else {
           role = 'Administrator'
@@ -59,10 +57,10 @@ function showUsers() {
             ' ><div class=""><h6>' +
             data[i].email +
             '</h6><span>' +
-            role + 
+            role +
             '</span></div><div class="customUser"><button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#changePasswordModal" onClick="createHiddenElement(' +
             tmpId +
-            ')">Change password</button></div></div>' 
+            ')">Change password</button></div></div>'
         } else {
             document.getElementById('users').innerHTML +=
             '<div class="customUserBorder" id=' +
@@ -70,16 +68,13 @@ function showUsers() {
             ' ><div class=""><h6>' +
              data[i].email +
               '</h6><span>' +
-             role + 
+             role +
              '</span></div><div class="customUser"><button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#changePasswordModal" onClick="createHiddenElement(' +
              tmpId +
             ')">Change password</button><button class="btn btn-outline-danger" onClick="deleteUser(' + tmpId + ')">Delete user</button></div></div>'
         }
       }
-    }
-  }
-  xmlhttp.open('GET', 'api/show_users',true)
-  xmlhttp.send()
+    })
 }
 
 async function changePassword() {
@@ -93,35 +88,21 @@ async function changePassword() {
   });
 
  if (newPassword.value == newPasswordRepeat.value) {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-      if (xhr.readyState !== 4) return;
-      if (xhr.status >= 200 && xhr.status < 300) {
-          closeButton.dispatchEvent(new MouseEvent('click', {shiftKey: true}))  
-      } 
-  };
-  xhr.open('POST', 'api/change_password');
-  xhr.send(data);
- } else { 
+  apiFetch('api/change_password', { method: 'POST', body: data }).then((response) => {
+      if (response.ok) {
+          closeButton.dispatchEvent(new MouseEvent('click', {shiftKey: true}))
+      }
+  });
+ } else {
     newPasswordRepeat.classList.add("error");
     newPassword.classList.add("error");
-    infoMess.style.display = "block"; 
-    setTimeout(function(){ 
+    infoMess.style.display = "block";
+    setTimeout(function(){
         newPasswordRepeat.classList.remove("error");
         newPassword.classList.remove("error");
-        infoMess.style.display = "none"; 
+        infoMess.style.display = "none";
     }, 3000);
  }
-}
-
-function makeid(length) {
-  var result = ''
-  var characters = '123456789'
-  var charactersLength = characters.length
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
-  }
-  return result
 }
 
 async function createHiddenElement(id) {
@@ -137,36 +118,27 @@ function deleteUser(id) {
     userToDelete: user,
   })
 
-  var xhrCall = new XMLHttpRequest()
-  xhrCall.onreadystatechange = function () {
-      if (xhrCall.readyState !== 4) return;
-      if (xhrCall.status >= 200 && xhrCall.status < 300) {
+  apiFetch('api/delete_user', { method: 'POST', body: data }).then((response) => {
+      if (response.ok) {
         divBlock.innerHTML = ''
         showUsers()
-      } 
-  }
-  xhrCall.open('POST', 'api/delete_user')
-  xhrCall.send(data) 
+      }
+  })
 }
 
 async function createUser() {
    let username = document.getElementById('useremail').value
    let password = document.getElementById('password').value
-   let role = document.getElementById('role').value 
+   let role = document.getElementById('role').value
    let data = JSON.stringify({
     user: username,
     password: password,
     role: role,
   })
 
-  var xhrCallCreateUser = new XMLHttpRequest()
-  xhrCallCreateUser.onreadystatechange = function () {
-      if (xhrCallCreateUser.readyState !== 4) return;
-      if (xhrCallCreateUser.status >= 200 && xhrCallCreateUser.status < 300) {
+  apiFetch('api/create_user', { method: 'POST', body: data }).then((response) => {
+      if (response.ok) {
         location.reload();
-        return false;
-      } 
-  }
-  xhrCallCreateUser.open('POST', 'api/create_user')
-  xhrCallCreateUser.send(data) 
+      }
+  })
 }

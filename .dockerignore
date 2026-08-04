@@ -1,0 +1,12 @@
+# Used when building nginx/Dockerfile, whose build context is the repo root.
+.git/
+.env
+.env.example
+backend/vendor/
+backend/var/
+backend/.env
+backend/.env.local
+frontend/node_modules/
+frontend/dist/
+docs/
+*.md

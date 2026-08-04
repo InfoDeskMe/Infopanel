@@ -2,34 +2,42 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Psr\Log\LoggerInterface;
 
 class FileDeleter
 {
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
-    public function delete($uploadDir, $filename)
+    public function delete(string $uploadDir, string $filename): void
     {
-        $filesystem = new Filesystem();
-        $file = $uploadDir . $filename;
-        try {
-            if($filesystem->exists($file)) {
-                $filesystem->remove($file);
-            } else {
-                echo "No file : " . $file ;
+        $base = realpath($uploadDir);
+        if (false === $base) {
+            throw new \RuntimeException("Upload directory does not exist: {$uploadDir}");
+        }
 
-            }
-        } catch (FileException $e){
-            $this->logger->error('failed to delete image ' . $e->getMessage());
-            throw new FileException('Failed to delete file');
+        $target = realpath($uploadDir.$filename);
+        if (false === $target) {
+            // Nothing to delete.
+            return;
+        }
+
+        if (!str_starts_with($target, $base.DIRECTORY_SEPARATOR)) {
+            throw new \InvalidArgumentException('Invalid path');
+        }
+
+        $filesystem = new Filesystem();
+        try {
+            $filesystem->remove($target);
+        } catch (IOExceptionInterface $e) {
+            $this->logger->error('failed to delete image '.$e->getMessage());
+            throw new \RuntimeException('Failed to delete file', 0, $e);
         }
     }
 }

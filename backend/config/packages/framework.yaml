@@ -5,7 +5,8 @@ framework:
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    session:
+        cookie_samesite: strict
 
     #esi: true
     #fragments: true

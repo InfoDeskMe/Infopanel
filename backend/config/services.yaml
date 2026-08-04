@@ -1,18 +1,17 @@
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    upload_dir: '../public/uploads/images'
+    # Where data.json, config.json and data_ticker.json live. The frontend
+    # fetches this data through the API (see CFG-1), not as static files, so
+    # nothing needs these to be inside public/ anymore.
+    app.data_dir: '%kernel.project_dir%/var/data'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:
-            $uploadDir: '%upload_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -22,6 +21,26 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            # These two need an explicit $path per instance (see below),
+            # so they're excluded from the generic auto-registration.
+            - '../src/Repository/JsonContentRepository.php'
+            - '../src/Repository/SettingsRepository.php'
+
+    # News and ticker news are both flat JSON-array lists with identical CRUD
+    # behavior -- one repository class, two instances differing only by file.
+    app.repository.news:
+        class: App\Repository\JsonContentRepository
+        arguments:
+            $path: '%app.data_dir%/data.json'
+
+    app.repository.ticker:
+        class: App\Repository\JsonContentRepository
+        arguments:
+            $path: '%app.data_dir%/data_ticker.json'
+
+    App\Repository\SettingsRepository:
+        arguments:
+            $path: '%app.data_dir%/config.json'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

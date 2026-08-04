@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.3-fpm AS base
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -62,6 +62,26 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 RUN apt upgrade -y
 
-#CMD ["bash", "/var/www/backend/composer_install.sh"]
-
 EXPOSE 9000
+
+# --------------------------------------------------------------------------
+# Used by docker-compose.yml (production): bakes the actual application code
+# in, so the image runs standalone without the source tree bind-mounted.
+# docker-compose.dev.yml intentionally builds only the "base" stage above and
+# bind-mounts ./backend over it instead, for hot reload during development.
+# --------------------------------------------------------------------------
+FROM base AS prod
+
+COPY . .
+
+# --no-scripts: cache:clear/assets:install/importmap:install all boot the
+# Symfony kernel, which needs DATABASE_URL etc. -- those are only available
+# as real container environment variables at runtime, not at build time.
+# docker-entrypoint.sh runs them once the container actually starts.
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm"]

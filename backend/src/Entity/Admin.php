@@ -21,10 +21,12 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private $roles;
 
-
-     // @var string The hashed password  
+    // @var string The hashed password
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $mustChangePassword = false;
 
     public function getId(): ?int
     {
@@ -95,6 +97,18 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function isMustChangePassword(): bool
+    {
+        return $this->mustChangePassword;
+    }
+
+    public function setMustChangePassword(bool $mustChangePassword): self
+    {
+        $this->mustChangePassword = $mustChangePassword;
+
+        return $this;
+    }
+
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
@@ -117,8 +131,6 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-         
-         return $this->email;
+        return $this->email;
     }
-
 }

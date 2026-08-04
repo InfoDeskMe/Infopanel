@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FileUploader
 {
@@ -17,11 +17,9 @@ class FileUploader
     public function upload($uploadDir, $file, $filename)
     {
         try {
-
             $file->move($uploadDir, $filename);
-        } catch (FileException $e){
-
-            $this->logger->error('failed to upload image: ' . $e->getMessage());
+        } catch (FileException $e) {
+            $this->logger->error('failed to upload image: '.$e->getMessage());
             throw new FileException('Failed to upload file');
         }
     }

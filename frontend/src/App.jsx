@@ -1,144 +1,70 @@
-import React, { useEffect, useState } from 'react';
-import Layout from './components/layout/v1/Layout.jsx';
-import LayoutV2 from './components/layout/v2/LayoutV2.jsx';
+import { useEffect, useState } from 'react';
 import './assets/css/bootstrap.css';
 import './assets/css/app.css';
 import MoveTicker from './components/ticker/MoveTicker.jsx';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
+import usePolledJson from './hooks/usePolledJson.js';
+import { getLayoutComponent } from './layouts/index.js';
+
+const API_BASE = import.meta.env.VITE_API_BASE ?? '/api';
+const DEFAULT_RELOAD_MS = 60000;
+const DEFAULT_SLIDE_DELAY_MS = 8000;
 
 const App = () => {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
-  const [headline, setHeadline] = useState('');
-  const [content, setContent] = useState('');
-  const [imageSrc, setImageSrc] = useState('');
-  const [url, setUrl] = useState('');
-  const [tickerDataArray, setTickerDataArray] = useState([]);
-  const [config, setConfig] = useState({});
+  const settings = usePolledJson(`${API_BASE}/read_settings`, DEFAULT_RELOAD_MS);
+  const newsData = usePolledJson(`${API_BASE}/read_config`, settings?.generalReload ?? DEFAULT_RELOAD_MS);
+  const [slideIndex, setSlideIndex] = useState(0);
 
-  const getConfig = () => {
-    fetch('http://localhost:8080/config.json', {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      cache: 'reload',
-      Pragma: 'no-cache',
-      Expires: '0',
-    })
-      .then((resConfig) => resConfig.json())
-      .then((resConfig) => {
-        setIsLoaded(false);
-        setConfig(resConfig);
-      });
-  };
+  const newsList = newsData?.news ?? [];
+  const slideCount = newsList.length;
 
-  const getData = (s) => {
-    fetch('http://localhost:8080/data.json', {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      cache: 'reload',
-      Pragma: 'no-cache',
-      Expires: '0',
-    })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          function getHeadline() {
-            return eval('result.news' + s + '.headline');
-          }
-          function getContent() {
-            return eval('result.news' + s + '.content');
-          }
-
-          function getImageSrc() {
-            return eval('result.news' + s + '.image');
-          }
-
-          function getUrl() {
-            return eval('result.news' + s + '.url');
-          }
-
-          setIsLoaded(true);
-          setItems(result);
-          setHeadline(getHeadline());
-          setContent(getContent());
-          setImageSrc(getImageSrc());
-          setUrl(getUrl());
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  };
+  // Data can shrink (an item got deleted) between refreshes; keep the index
+  // in range without resetting it back to 0 on every unrelated refresh.
+  useEffect(() => {
+    if (slideCount === 0) {
+      return;
+    }
+    setSlideIndex((i) => i % slideCount);
+  }, [slideCount]);
 
   useEffect(() => {
-    var i = 0;
-    fetch('http://localhost:8080/config.json', {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      cache: 'reload',
-      Pragma: 'no-cache',
-      Expires: '0',
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        const CONFIG = res;
-        getConfig();
-        setInterval(() => {
-          window.location.reload();
-        }, CONFIG.generalReload);
-        setInterval(() => {
-          if (i < CONFIG.newsNumber) {
-            getData(i);
-            i++;
-          } else {
-            i = 0;
-          }
-        }, CONFIG.slideDelay);
-      });
-  }, []);
+    if (slideCount === 0) {
+      return;
+    }
+    const id = setInterval(() => {
+      setSlideIndex((i) => (i + 1) % slideCount);
+    }, settings?.slideDelay ?? DEFAULT_SLIDE_DELAY_MS);
+    return () => clearInterval(id);
+  }, [slideCount, settings?.slideDelay]);
 
-  const renderTicker = (s) => {
-    if (s == 1) {
+  const currentItem = newsList[slideIndex] ?? {};
+
+  const renderTicker = () => {
+    if (settings?.showTicker == 1) {
       return (
         <MoveTicker
-          tickerDataArray={tickerDataArray}
-          height={config.tickerHeight}
-          speed={config.tickerSpeed}
-          direction={config.tickerOrientation}
+          height={settings.tickerHeight}
+          speed={settings.tickerSpeed}
+          direction={settings.tickerOrientation}
         />
       );
     }
+    return null;
   };
 
-  const renderLayout = (m) => {
-    if (m == 0) {
-      return (
-        <Layout header={headline} content={content} imageSrc={imageSrc} url={url} />
-      );
-    } else {
-      return (
-        <LayoutV2 header={headline} content={content} imageSrc={imageSrc} url={url} />
-      );
-    }
+  const renderLayout = () => {
+    const layoutProps = {
+      header: currentItem.headline,
+      content: currentItem.content,
+      imageSrc: currentItem.image,
+      url: currentItem.url,
+    };
+
+    const LayoutComponent = getLayoutComponent(settings?.layout_type);
+    return <LayoutComponent {...layoutProps} />;
   };
 
-  const prepareRendering = () => {
-    return (
-      <div>
-        {renderTicker(config.showTicker)}
-        {renderLayout(config.layout_type)}
-      </div>
-    );
-  };
-
-  if (error) {
-    setTimeout(() => window.location.reload(), 5000);
-    return <div>Error because {error.message}</div>;
-  } else if (!isLoaded) {
+  if (!settings || !newsData) {
     return (
       <div className="lds-roller">
         <div></div>
@@ -151,9 +77,25 @@ const App = () => {
         <div></div>
       </div>
     );
-  } else {
-    return <div>{prepareRendering()}</div>;
   }
+
+  if (slideCount === 0) {
+    return (
+      <div>
+        {renderTicker()}
+        <div className="panel-empty">No content has been added yet.</div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {renderTicker()}
+      {/* key remounts the boundary per slide, so one bad slide can't
+          permanently blank the display -- the next slide gets a clean try. */}
+      <ErrorBoundary key={slideIndex}>{renderLayout()}</ErrorBoundary>
+    </div>
+  );
 };
 
 export default App;

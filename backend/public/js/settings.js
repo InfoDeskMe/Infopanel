@@ -6,60 +6,47 @@ let tickerOrientation = document.getElementById('tickerOrientation');
 let tickerHeight = document.getElementById('tickerHeight');
 let showTicker = document.getElementById('showTicker');
 let slideDelay = document.getElementById('slideDelay');
-let dataConfig = {} 
+let dataConfig = {}
 
 
 function showSettings() {
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
- 
-      if (this.readyState == 4 && this.status == 200) {
-        dataConfig = JSON.parse(this.responseText)
-        let data = JSON.parse(dataConfig)
+    apiFetch('api/read_settings')
+      .then((response) => response.json())
+      .then((data) => {
+        dataConfig = data
         basicReload.value = data.generalReload
-        newsNumber.value = data.newsNumber 
+        newsNumber.value = data.newsNumber
         layoutOrientation.value = data.layout_type
         tickerSpeed.value = data.tickerSpeed
         tickerOrientation.value = data.tickerOrientation
         tickerHeight.value = data.tickerHeight
         showTicker.value = data.showTicker
         slideDelay.value = data.slideDelay
-      }
-    };
-    xhttp.open("GET", "api/read_settings");
-    xhttp.send();
+      })
   }
 
 
 function saveSettings() {
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
- 
-      if (this.readyState == 4 && this.status == 200) {
+    let data = new FormData()
+    data.append('basicReload', basicReload.value)
+    data.append('newsNumber', newsNumber.value)
+    data.append('layoutOrientation', layoutOrientation.value)
+    data.append('tickerSpeed', tickerSpeed.value)
+    data.append('tickerOrientation', tickerOrientation.value)
+    data.append('tickerHeight', tickerHeight.value)
+    data.append('showTicker', showTicker.value)
+    data.append('slideDelay', slideDelay.value)
+
+    apiFetch('api/save_settings', { method: 'POST', body: data }).then((response) => {
+      if (response.ok) {
         document.getElementById('txtHint').innerHTML =
         "<div class='alert alert-success' role='alert'>Successfully saved</div>"
       setTimeout(function () {
         document.getElementById('txtHint').style.display = 'none';
       }, 2000)
+      } else {
+        document.getElementById('txtHint').innerHTML =
+          "<div class='alert alert-danger' role='alert'>Failed to save. Please try again.</div>"
       }
-    };
-    xhttp.open("POST", 
-    "api/save_settings?basicReload=" +
-    basicReload.value +
-    '&newsNumber=' + 
-    newsNumber.value +
-    '&layoutOrientation='+
-    layoutOrientation.value + 
-    '&tickerSpeed=' + 
-    tickerSpeed.value +
-    '&tickerOrientation=' +
-    tickerOrientation.value +  
-    '&tickerHeight=' +
-    tickerHeight.value + 
-    '&showTicker=' + 
-    showTicker.value +
-    '&slideDelay=' + 
-    slideDelay.value
-    );
-    xhttp.send();
+    })
 }

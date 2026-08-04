@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Ticker = ({ items, speed, height = "50px", direction = "left" }) => {
     const tickerRef = useRef(null);

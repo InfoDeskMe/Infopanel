@@ -38,13 +38,13 @@ async function uploadFile() {
   let data = new FormData()
   data.append('file', document.querySelector('#myfile').files[0])
   let uploaderButton = document.getElementById('image')
-  let xhttp = new XMLHttpRequest()
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var newfile = data.get('file')
-      fileName = newfile
+
+  apiFetch('/doUpload', { method: 'POST', body: data }).then(async (response) => {
+    if (response.ok) {
+      let uploadedName = (await response.json()).filename
+      fileName = uploadedName
       let uploadArea = document.getElementById('uploadArea')
-      uploaderButton.value = 'uploads/images/' + newfile.name
+      uploaderButton.value = 'uploads/images/' + uploadedName
       let selectButton = document.getElementById('myfile')
       selectButton.disabled = true
       uploadArea.innerHTML =
@@ -52,16 +52,13 @@ async function uploadFile() {
     } else {
       uploaderButton.value = 'file could not be loaded and will be not available...'
     }
-  } 
-  xhttp.open('POST', '/doUpload')
-  xhttp.send(data)
+  })
 }
 
 async function deleteFile() {
-  var fileToDelete = fileName.name
-  let xhttp = new XMLHttpRequest()
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
+  var fileToDelete = fileName
+  apiFetch('/doDelete', { method: 'POST', body: JSON.stringify({ filename: fileToDelete }) }).then((response) => {
+    if (response.ok) {
       let uploaderButton = document.getElementById('image')
       let ButtonToDelete = document.getElementById('b')
       let selectFileButton = document.getElementById('myfile')
@@ -70,25 +67,21 @@ async function deleteFile() {
       selectFileButton.disabled = false
       ButtonToDelete.remove()
     }
-  }
-  xhttp.open('POST', '/doDelete')
-  xhttp.send(fileToDelete)
+  })
 }
 
 async function deleteImage(id) {
   var fileToDelete = id
   let areaToDelete = document.getElementById(id)
   let fileBeDeleted = areaToDelete.children[0].children[0].value
-  let xhttp = new XMLHttpRequest()
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
+  apiFetch('/doDelete', { method: 'POST', body: JSON.stringify({ filename: fileBeDeleted }) }).then((response) => {
+    if (response.ok) {
       let uploaderButton = document.getElementById('image')
       let ButtonToDelete = document.getElementById('b')
       let selectFileButton = document.getElementById('myfile')
       let closeButton = document.getElementById('selectImagesModal')
       let selectedOption = document.getElementsByClassName('form-check-input')
-    
-     
+
       selectFileButton.value = []
       uploaderButton.value = ''
       selectFileButton.disabled = false
@@ -99,19 +92,15 @@ async function deleteImage(id) {
       } else {
         areaToDelete.remove()
       }
-        
     }
-  }
-  xhttp.open('POST', '/doDelete')
-  xhttp.send(fileBeDeleted)
+  })
 }
 
 async function showAvailableImages() {
   let filesArea = document.getElementById('selectFileArea');
-  let xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      let parseData = JSON.parse(this.responseText);
+  apiFetch('/showfiles')
+    .then((response) => response.json())
+    .then((parseData) => {
       let data = JSON.parse(parseData);
       let countFiles = Object.keys(data).length;
 
@@ -119,7 +108,7 @@ async function showAvailableImages() {
         filesArea.innerHTML = '';
 
         for (let i = 0; i < countFiles; i++) {
-          var m = randomId(5);
+          var m = makeId(5);
           function checkMimeType(num) {
             if (data[num].slice(-3) !== 'mp4') {
               return '<img alt="' + data[i] + '" class="prerenderImage" src=\"uploads/images/' + data[i] +  '\">'
@@ -132,7 +121,7 @@ async function showAvailableImages() {
             '<div class="imageBlock" id="' + m +'"> \
               <div class="form-check"> \
                  <input class="form-check-input" type="radio" name="image" id="flexRadioDefault2" value="' + data[i] + '" onClick="document.getElementById(\'closeModal\').disabled = false"> \
-               </div>'  
+               </div>'
                + checkMimeType(i); + '\
                 \
                <a href=\'#\' onclick="deleteImage(' + m + ')" > \
@@ -148,12 +137,8 @@ async function showAvailableImages() {
         if (ButtonToDelete) {
           ButtonToDelete.remove()
         }
-       
       }
-    }
-  }
-  xhttp.open('GET', '/showfiles')
-  xhttp.send()
+    })
 }
 
 function putSelectedImage() {
@@ -163,20 +148,9 @@ function putSelectedImage() {
 
   for(i = 0; i < selectedOption.length; i++) {
     if(selectedOption[i].type="radio" && selectedOption[i].checked == true) {
-        
+
         imageField.value = "http://localhost/uploads/images/" + selectedOption[i].value;
-        closeButton.dispatchEvent(new MouseEvent('click', {shiftKey: true}))   
+        closeButton.dispatchEvent(new MouseEvent('click', {shiftKey: true}))
     }
   }
-}
-
-function randomId(length) {
-  var result = ''
-  var characters =
-    '123456789'
-  var charactersLength = characters.length
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
-  }
-  return result
 }

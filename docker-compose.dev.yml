@@ -5,17 +5,26 @@ services:
      command: --default-authentication-plugin=mysql_native_password
      restart: always
      environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: symfony_docker
-      MYSQL_USER: symfony
-      MYSQL_PASSWORD: symfony
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required, see .env.example}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-symfony_docker}
+      MYSQL_USER: ${MYSQL_USER:-symfony}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD is required, see .env.example}
      ports:
       - "4306:3306"
      volumes:
       - ./.development/mysql:/var/lib/mysql
      networks:
       - symfony
-    
+     healthcheck:
+      # --protocol=tcp: "-h localhost" alone prefers a unix socket, which can
+      # go healthy slightly before the TCP listener other containers
+      # actually connect through is ready -- a real race hit while testing.
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--protocol=tcp", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
     frontend:
      container_name: frontend_infopanel
      build:
@@ -34,13 +43,15 @@ services:
      container_name: backend_infopanel
      build:
       context: ./backend
-     restart: always
+      target: base
+     restart: unless-stopped
      ports:
      - '9000:9000'
      volumes:
      - ./backend:/var/www/backend
      depends_on:
-     - database
+      database:
+       condition: service_healthy
      networks:
      - symfony
 
@@ -48,7 +59,7 @@ services:
      container_name: nginx
      image: nginx:stable-alpine
      ports:
-     - '8080:80'
+     - '8080:8080'
      restart: always
      volumes:
      - ./backend:/var/www/backend
@@ -62,6 +73,3 @@ services:
 networks:
   symfony:
     driver: bridge
-
-#volumes:
-#  app_node_modules:

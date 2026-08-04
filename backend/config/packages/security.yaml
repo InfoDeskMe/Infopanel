@@ -18,6 +18,8 @@ security:
             entity:
                 class: App\Entity\Admin
                 property: email
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_EDITOR
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -31,12 +33,9 @@ security:
                 # "app_login" is the name of the route created previously
                 login_path: app_login
                 check_path: app_login
+                enable_csrf: true
             logout:
                 path: app_logout
-                
-   #     secured_area:
-   #         form_login:    
-   #             enable_csrf: true
 
                 # where to redirect after logout
                 # target: app_any_route
@@ -50,6 +49,18 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+         - { path: ^/login, roles: PUBLIC_ACCESS }
+         - { path: ^/api/read_, roles: PUBLIC_ACCESS }
+         - { path: ^/api/show_users, roles: ROLE_ADMIN }
+         - { path: ^/api/create_user, roles: ROLE_ADMIN }
+         - { path: ^/api/delete_user, roles: ROLE_ADMIN }
+         - { path: ^/api/change_password, roles: ROLE_EDITOR }
+         - { path: ^/api/save_settings, roles: ROLE_ADMIN }
          - { path: ^/gui_users, roles: ROLE_ADMIN }
          - { path: ^/gui_settings, roles: ROLE_ADMIN }
+         - { path: ^/api/, roles: ROLE_EDITOR }
+         - { path: ^/doUpload, roles: ROLE_EDITOR }
+         - { path: ^/doDelete, roles: ROLE_EDITOR }
+         - { path: ^/showfiles, roles: ROLE_EDITOR }
+         - { path: ^/gui, roles: ROLE_EDITOR }
 

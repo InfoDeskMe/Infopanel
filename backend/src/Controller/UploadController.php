@@ -2,84 +2,100 @@
 
 namespace App\Controller;
 
+use App\Security\CsrfProtectedTrait;
+use App\Service\FileDeleter;
+use App\Service\FileUploader;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Service\FileUploader;
-use App\Service\FileDeleter;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Finder\Finder;
-use function finfo_open;
-use function finfo_close;
+use Symfony\Component\Routing\Attribute\Route;
 
 class UploadController extends AbstractController
 {
-    
-    #[Route('/doUpload', name: 'do-upload')]
-    public function index(Request $request, string $uploadDir, FileUploader $uploader, LoggerInterface $logger): Response
+    use CsrfProtectedTrait;
+
+    private const EXTENSION_BY_MIME_TYPE = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'video/mp4' => 'mp4',
+    ];
+
+    // Matches only filenames this controller itself generates.
+    private const SAFE_FILENAME_PATTERN = '/^[a-f0-9]{32}\.(jpg|png|mp4)$/';
+
+    #[Route('/doUpload', name: 'do-upload', methods: ['POST'])]
+    public function index(Request $request, FileUploader $uploader, LoggerInterface $logger): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $allowed_file_types = ['image/jpeg', 'image/png', 'video/mp4'];
-        $allowed_size_mb = 2; 
+        $this->assertValidCsrfToken($request);
+        $allowed_size_mb = 2;
         $file = $request->files->get('file');
-        $file_size = $_FILES['file']['size'];
 
-        if (empty($file))
-        {
-            return new Response("No file specified",
-               Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+        if (empty($file)) {
+            return new Response('No file specified', Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
         }
 
-        $finfo = finfo_open();
+        $finfo = \finfo_open();
         $file_type = finfo_buffer($finfo, file_get_contents($file), FILEINFO_MIME_TYPE);
-        if(!in_array($file_type, $allowed_file_types)) {
-            exit('Error : Incorrect file type');
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_NOT_FOUND);
-            return $response;
-        } else if ($file_size > $allowed_size_mb*1024*1024) {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_NOT_FOUND);
-            return $response;
-            exit('Error : Exceeded size');
-            
-        } else {
-            $filename = $file->getClientOriginalName();
-            $uploader->upload($uploadDir, $file, $filename);
-            $response = new Response();
-            return $response;
+        \finfo_close($finfo);
+
+        if (!isset(self::EXTENSION_BY_MIME_TYPE[$file_type])) {
+            return new Response('Error : Incorrect file type', Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
         }
+
+        if ($file->getSize() > $allowed_size_mb * 1024 * 1024) {
+            return new Response('Error : Exceeded size', Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+        }
+
+        // Never trust the client-supplied filename as a filesystem path (path traversal).
+        $safeName = bin2hex(random_bytes(16)).'.'.self::EXTENSION_BY_MIME_TYPE[$file_type];
+        $uploadDir = $this->getParameter('kernel.project_dir').'/public/uploads/images/';
+        $uploader->upload($uploadDir, $file, $safeName);
+
+        return new JsonResponse(['filename' => $safeName]);
     }
 
-    #[Route('/doDelete', name: 'do-delete')]
-    public function deleteFile(Request $request, string $uploadDir, FileDeleter $deleter, LoggerInterface $logger): Response
+    #[Route('/doDelete', name: 'do-delete', methods: ['POST'])]
+    public function deleteFile(Request $request, FileDeleter $deleter, LoggerInterface $logger): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $filename = $request->getContent();
-        $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/images/';
-        echo $filename;
-        $deleter->delete($uploadDir, $filename);
-        $response = new Response();
-        return $response;
+        $this->assertValidCsrfToken($request);
+        $data = json_decode($request->getContent(), true);
+        $filename = is_array($data) ? ($data['filename'] ?? '') : '';
+
+        if (!is_string($filename) || !preg_match(self::SAFE_FILENAME_PATTERN, $filename)) {
+            return new Response('Invalid filename', Response::HTTP_BAD_REQUEST);
+        }
+
+        $uploadDir = $this->getParameter('kernel.project_dir').'/public/uploads/images/';
+
+        try {
+            $deleter->delete($uploadDir, $filename);
+        } catch (\InvalidArgumentException $e) {
+            return new Response('Invalid path', Response::HTTP_BAD_REQUEST);
+        }
+
+        return new Response();
     }
 
-    #[Route('/showfiles', name: 'showfiles')]
-    public function showFiles(Request $request, string $uploadDir): Response
+    #[Route('/showfiles', name: 'showfiles', methods: ['GET'])]
+    public function showFiles(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $finder = new Finder();
-        $data = array();
-        $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/images/';
-        foreach ($finder->files()->in('../public/uploads/images') as $file) {
-           $data[] = $file->getRelativePathname();
+        $data = [];
+        $uploadDir = $this->getParameter('kernel.project_dir').'/public/uploads/images/';
+        foreach ($finder->files()->in($uploadDir) as $file) {
+            $data[] = $file->getRelativePathname();
         }
         $json = json_encode($data);
         $response = new Response();
         $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->setContent(json_encode($json, JSON_PRETTY_PRINT ));
+        $response->setContent(json_encode($json, JSON_PRETTY_PRINT));
+
         return $response;
     }
-
 }

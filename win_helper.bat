@@ -1,25 +1,35 @@
 @echo off
+setlocal enabledelayedexpansion
 
 echo installing necessary files...
-cd backend\
-COPY  .env.dist .env
-Rem DEL /S .env.dist
-cd public\
-COPY  config.json.dist config.json
-COPY  data_ticker.json.dist data_ticker.json
-COPY  data.json.dist data.json
-cd ..\..\
+
+if not exist .env (
+    echo Generating random database credentials and app secret...
+    rem hex, not base64: MYSQL_PASSWORD ends up embedded in a DATABASE_URL
+    rem docker-compose.yml builds, where base64's '+' and '/' would corrupt it.
+    for /f "delims=" %%i in ('powershell -NoProfile -Command "-join ([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(24) | ForEach-Object { $_.ToString('x2') })"') do set GEN_ROOT_PW=%%i
+    for /f "delims=" %%i in ('powershell -NoProfile -Command "-join ([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(24) | ForEach-Object { $_.ToString('x2') })"') do set GEN_USER_PW=%%i
+    for /f "delims=" %%i in ('powershell -NoProfile -Command "-join ([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(16) | ForEach-Object { $_.ToString('x2') })"') do set GEN_APP_SECRET=%%i
+    (
+        echo MYSQL_ROOT_PASSWORD=!GEN_ROOT_PW!
+        echo MYSQL_DATABASE=symfony_docker
+        echo MYSQL_USER=symfony
+        echo MYSQL_PASSWORD=!GEN_USER_PW!
+        echo APP_SECRET=!GEN_APP_SECRET!
+    ) > .env
+)
+
 docker compose build
-docker compose up -d
 echo *************************************************
 echo The installation is still in progress. Please wait...
 echo *************************************************
-timeout /t 45
-cd backend\
-call docker cp dump.sql database_infopanel:/dump.sql
-call docker exec -i database_infopanel mysql -h 0.0.0.0 -P 3306 -usymfony -psymfony symfony_docker < dump.sql
-call docker exec -it backend_infopanel composer install
-COPY  .envprod.dist .env
+rem --wait blocks until every service with a healthcheck reports healthy,
+rem instead of guessing a fixed timeout -- migrations and the initial admin
+rem account are created automatically once the database is actually ready
+rem (see backend/docker-entrypoint.sh), no interactive prompts involved.
+docker compose up -d --wait
 echo The installation has been finished...
+echo Initial admin credentials (shown once, change on first login):
+docker logs backend_infopanel 2>&1 | findstr /C:"Initial admin account created" /C:"Email:" /C:"Password:"
 start http://localhost
 pause

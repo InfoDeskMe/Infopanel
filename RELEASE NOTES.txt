@@ -1,7 +1,44 @@
-v.1.0.9
--> NGINX Docker Container rewrite
-   - httpd container deleted as not necessary 
+v.2.0.0
+-> Security hardening
+   - Roles are now enforced on the server for every page and every API call, not just hidden in the menu -- an Editor account can no longer reach Admin-only pages or actions by guessing a URL.
+   - All content-changing actions (saving settings, adding/editing/deleting news and ticker entries, managing users) are now protected against cross-site request forgery (CSRF).
+   - The initial admin account gets a random password on first install, shown once in the console, and you're required to change it before you can use anything else.
+   - Deleting an uploaded image can no longer be tricked into deleting files outside the upload folder.
+   - Login sessions use stricter cookie settings to reduce the risk of session theft.
 
+-> More reliable saving
+   - News and ticker data is now written to disk safely (no more risk of a corrupted/half-written file if the server is interrupted mid-save).
+   - Concurrent edits (e.g. two admins saving at the same time) can no longer silently overwrite each other's changes.
+   - Older data files are automatically migrated to the new format on first start -- no manual steps needed.
+
+-> Backend rebuild
+   - The API layer was rewritten for reliability and consistency across News, Ticker, and Settings.
+   - The public display now uses efficient polling (only re-downloads data when it actually changed), which means less network traffic and battery usage on always-on displays.
+
+-> Deployment improvements
+   - The Docker setup now waits for the database to actually be ready before starting the app, instead of guessing with a fixed delay.
+   - File permission issues that could cause "permission denied" errors on a fresh install have been fixed.
+   - Install scripts generate secure random passwords/secrets automatically and no longer need manual editing.
+   - New `app:reset-admin-password` command to regain access if you ever get locked out of the backoffice.
+   - Static backoffice files (JS/CSS) now always update immediately after a new deployment, instead of possibly staying cached in your browser.
+
+-> Public display improvements
+   - Shows a friendly placeholder instead of a blank screen when no content has been added yet.
+   - A broken or incomplete slide (e.g. missing image) no longer breaks the whole display -- it recovers automatically on the next slide.
+
+-> Backoffice (GUI) fixes
+   - The "Successfully saved" confirmation now reliably appears after saving settings or news.
+   - The top navigation bar is no longer sticky/fixed while scrolling.
+
+-> Licensing
+   - Clarified in the README and in the license badge that commercial use requires a separate license -- see the "License" section or get in touch directly.
+
+> Please note if you're upgrading an existing installation:
+   - Your existing data is migrated automatically on first start after the update -- no action needed.
+   - The admin account will be required to change its password on first login after this update.
+   - Do a hard-refresh of the backoffice in your browser once after upgrading, to make sure you're not running an old cached version of the backoffice scripts.
+
+----------
 v.1.0.8
 -> Global technical rebuild
    - From now on, there are two separate docker containers for the frontend and backend. 

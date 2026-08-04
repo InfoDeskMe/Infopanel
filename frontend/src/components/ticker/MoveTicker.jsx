@@ -1,71 +1,20 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react'
 import Ticker from './Tickerhelper'
+import usePolledJson from '../../hooks/usePolledJson.js'
 
-let newsData = []
-let CONFIG = {}
+const API_BASE = import.meta.env.VITE_API_BASE ?? '/api'
+const DEFAULT_TICKER_RELOAD_MS = 5000
 
-setInterval(() => {
-  (async () => {
-    const url = 'http://localhost:8080/data_ticker.json';
-    try {
-      const response = await fetch(url, {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        cache: 'reload',
-        Pragma: 'no-cache',
-        Expires: '0',
-      });
-      const data = await response.json();
+// height/speed/direction come from App.jsx's own settings poll -- no need
+// for this component to poll settings a second time on its own schedule.
+const MoveTicker = ({ height, speed, direction }) => {
+  const tickerData = usePolledJson(`${API_BASE}/read_ticker`, DEFAULT_TICKER_RELOAD_MS)
+  const items = (tickerData?.news ?? []).map((entry) => entry.content).filter(Boolean)
 
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          const content = data[key]?.content;
-          if (content) {
-            newsData.push(content);
-          } else {
-            console.log(`No data for ${key}`);
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error on getting data', error);
-    }
-  })();
-}, 500);
-
-setInterval(() => {
-  ; (async () => {
-    const url = 'http://localhost:8080/config.json'
-    try {
-      const response = await fetch(url, {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        cache: 'reload',
-        Pragma: 'no-cache',
-        Expires: '0',
-      })
-      const data = await response.json()
-      CONFIG = data
-    } catch (error) {
-      console.error('Error:', error)
-    }
-  })()
-}, 2000)
-
-const MoveTicker = () => (
-  <>
+  return (
     <div className="backgroundTicker">
-      <Ticker 
-        items={newsData}
-        direction={CONFIG.tickerOrientation}
-        height={CONFIG.tickerHeight}
-        speed={CONFIG.tickerSpeed}
-      >
-      </Ticker>
+      <Ticker items={items} direction={direction} height={height} speed={speed}></Ticker>
     </div>
-  </>
-)
+  )
+}
 
 export default MoveTicker

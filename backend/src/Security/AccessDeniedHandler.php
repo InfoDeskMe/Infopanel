@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Security;
 
@@ -11,7 +11,8 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 {
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
-        $content = "You cannot access this page, because you are not admin. Sorry!";
+        $content = 'You cannot access this page, because you are not admin. Sorry!';
+
         return new Response($content, 403);
     }
 }

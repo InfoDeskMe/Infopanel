@@ -11,7 +11,7 @@ frontend/node_modules
 .development/mysql
 public/build
 .DS_Store
-backend/public/data.json
-backend/public/data_ticker.json
-backend/public/config.json
+backend/var/data/data.json
+backend/var/data/data_ticker.json
+backend/var/data/config.json
 backend/public/uploads/images/**

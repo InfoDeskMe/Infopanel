@@ -1,46 +1,29 @@
 function saveNews() {
   if (validateData()) {
-  let xmlhttp = new XMLHttpRequest()
-  let headline = document.getElementById('headline').value
-  let content = document.getElementById('content').value
-  let url = document.getElementById('url').value
-  let image = document.getElementById('image').value
+    let headline = document.getElementById('headline').value
+    let content = document.getElementById('content').value
+    let url = document.getElementById('url').value
+    let image = document.getElementById('image').value
 
-  //create a unique ID for the news
-  function makeid(length) {
-    var result = ''
-    var characters =
-      '123456789'
-    var charactersLength = characters.length
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength))
-    }
-    return result
-  }
+    let data = new FormData()
+    data.append('headline', headline)
+    data.append('content', content)
+    data.append('url', url)
+    data.append('image', image)
 
-  xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById('txtHint').innerHTML =
-        "<div class='alert alert-success' role='alert'>Successfully saved</div>"
-      setTimeout(function () {
-        hideAlert()
-      }, 2000)
-    }
-  }
-  xmlhttp.open(
-    'POST',
-    'api/add_news?headline=' +
-      headline +
-      '&content=' +
-      content +
-      '&url=' +
-      url +
-      '&image=' +
-      image +
-      '&uniqueId=' +
-      makeid(5),
-  )
-  xmlhttp.send()
+    apiFetch('api/add_news', { method: 'POST', body: data })
+      .then((response) => {
+        if (response.ok) {
+          document.getElementById('txtHint').innerHTML =
+            "<div class='alert alert-success' role='alert'>Successfully saved</div>"
+          setTimeout(function () {
+            hideAlert()
+          }, 2000)
+        } else {
+          document.getElementById('txtHint').innerHTML =
+            "<div class='alert alert-danger' role='alert'>Failed to save. Please try again.</div>"
+        }
+      })
   } else {
     alert('All input fields are required!')
   }

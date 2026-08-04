@@ -12,7 +12,11 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+    'no-eval': 'error',
     'react/jsx-no-target-blank': 'off',
+    // No PropTypes or TypeScript anywhere in this project; enforcing
+    // prop-types here would mean retrofitting every component.
+    'react/prop-types': 'off',
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

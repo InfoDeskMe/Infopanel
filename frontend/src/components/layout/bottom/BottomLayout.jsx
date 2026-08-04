@@ -1,17 +1,14 @@
-import React, {useEffect, useRef} from 'react'
+import {useEffect, useRef} from 'react'
 import QRCode from 'react-qr-code'
 
-function LayoutV2(props) {
+function BottomLayout(props) {
   const videoRef = useRef();
 
   const sourceEndingHelper = () => {
-    let ending = props.imageSrc.slice(-3);
-    if (ending === 'mp4') {
-      return true;
-    } else return false; 
+    return (props.imageSrc ?? '').slice(-3) === 'mp4';
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     videoRef.current?.load();
   }, [props.imageSrc]);
 
@@ -23,7 +20,7 @@ function LayoutV2(props) {
               <div className="">
                 <div className="fixedCol">
                 <h1 className="headerTextV2">{props.header}</h1>
-                  {sourceEndingHelper() ? <video loop autoPlay muted className="mainImage" ref={videoRef}><source src={props.imageSrc} type="video/mp4" /></video> : <img src={props.imageSrc} alt="" className="mainImage"></img>}  
+                  {sourceEndingHelper() ? <video loop autoPlay muted className="mainImage" ref={videoRef}><source src={props.imageSrc} type="video/mp4" /></video> : <img src={props.imageSrc} alt="" className="mainImage"></img>}
                 </div>
               </div>
             </div>
@@ -32,7 +29,7 @@ function LayoutV2(props) {
               <div className="qr_codeV2">
                 <span>Read more:</span>
                 <div className="svgFrame">
-                  <QRCode value={props.url} className=""/>
+                  <QRCode value={props.url ?? ''} className=""/>
                 </div>
               </div>
               </div>
@@ -46,4 +43,4 @@ function LayoutV2(props) {
     )
   }
 
-export default LayoutV2
+export default BottomLayout
