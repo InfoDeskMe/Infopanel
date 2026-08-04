@@ -1,0 +1,10 @@
+{
+    "generalReload": 60000,
+    "newsNumber": 4,
+    "layout_type": 0,
+    "tickerSpeed": 10,
+    "tickerOrientation": "left",
+    "tickerHeight": 80,
+    "showTicker": 1,
+    "slideDelay": 8000
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+		{% block title %}Problem
+		{% endblock %}
+		</title>
+		<link href="{{ asset('css/Bootstrap.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('css/Main.css') }}" rel="stylesheet"/>
+	</head>
+	<body>
+		{% block body %}
+		<div>
+			<p>
+				There was a problem: {{ status_text }}
+			</p>
+		</div>
+		{% endblock %}
+	</body>
+</html>

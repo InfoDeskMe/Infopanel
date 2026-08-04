@@ -10,7 +10,7 @@ I. FRONTEND APPLICATION
 The frontend app is a typical react app with no routes or any addons. All used special modules will be installed automatically via the package.json file. 
 The app has the following structure: 
 
-- app/assets 
+- frontend/
     - css
         - app.css 
         (used for the custom css in the app)
@@ -18,17 +18,16 @@ The app has the following structure:
         - Bootstrap.css 
         (user for the standard app's grid)
     
-    - js
-        - components
+    - components
         (Now, there are only two basic components: layout and ticker. Layout is a "design" for the main construct grid. Ticker is a JS function for the ticker including it's source.) 
 
-        - config
+    - config
         (Config.js is a default config for the app in case the source is not available. Currently, I do not use it.)
 
-        - app.js
+    - app.js
         (This is the main slider logic of the app. All main JS functions can be found in this file.)
 
-        - index.js
+    - main.js
         (This is an standard entrypoint for a typical react app. Nothing special.) 
 
 ------------------------
@@ -39,7 +38,7 @@ The backend application is a typical php symfony app without any special addons.
 The app uses twig templates as an html engine. 
 Structure: 
 
-- app/public
+- backend/public
     - css
       (Bootstrap separated and Main.css is for the backend GUI)
 
@@ -52,14 +51,14 @@ Structure:
     - uploads
       (this folder is empty, but if any administrator would like to upload a new image here is a final location)
 
-- app/src 
+- backend/src 
     - Controller 
       (You will find all backend php controllers and entites for the database in this folder)
 
-- app/templates 
+- backend/templates 
     - (The app uses twig files for the frontend laout of GUI. Edit the GUI layout here)
 
-- app/.env
+- backend/.env
     - (Database connection defined in this file)
 
 ------------------------
@@ -72,4 +71,4 @@ The most backend functions are written in php. The frontend app uses only GET an
 - data.json - defines the content of slides. Do not edit it manuelly!
 
 The concept is pretty simple: Backend generates some config files in json format according to the php functions. 
-The source for the frontend app can switched any time in app/assets/app.js or app/assets/components/ticker/MoveTicker.js    
+The source for the frontend app can switched any time in frontend/app.jsx or frontend/components/ticker/MoveTicker.js    

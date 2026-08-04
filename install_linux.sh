@@ -1,32 +1,35 @@
 #!/bin/bash
 
 echo installing necessary files...
-cd app/
-cp .env.dist .env
-rm -rf .env.dist 
-cd public/
-cp config.json.dist config.json
-cp data_ticker.json.dist data_ticker.json
-cp data.json.dist data.json
-cd ../../
-docker compose build 
-docker compose up -d
+
+if [ ! -f .env ]; then
+  echo "Generating random database credentials and app secret..."
+  # hex, not base64: MYSQL_PASSWORD ends up embedded in a DATABASE_URL
+  # docker-compose.yml builds, where base64's '+' and '/' would corrupt it.
+  {
+    echo "MYSQL_ROOT_PASSWORD=$(openssl rand -hex 24)"
+    echo "MYSQL_DATABASE=symfony_docker"
+    echo "MYSQL_USER=symfony"
+    echo "MYSQL_PASSWORD=$(openssl rand -hex 24)"
+    echo "APP_SECRET=$(openssl rand -hex 16)"
+  } > .env
+fi
+
+docker compose build
 echo '*************************************************'
 echo 'Installation is still in progress. Please wait...'
 echo '*************************************************'
-sleep 45 ## necessary, because the mysql container needs longer sometimes...
-cd app/
-docker cp dump.sql database_symfony:/dump.sql
-docker exec -i database_symfony mysql -h 0.0.0.0 -P 3306 -usymfony -psymfony symfony_docker < dump.sql
-docker exec -it php npm install --legacy-peer-deps
-docker exec -it php npm run build
-docker exec -it php composer require symfony/flex
-docker exec -it php composer install 
-rm -rf .env
-cp .envprod.dist .env
+# --wait blocks until every service with a healthcheck reports healthy,
+# instead of guessing a fixed sleep -- migrations and the initial admin
+# account are created automatically once the database is actually ready
+# (see backend/docker-entrypoint.sh), no interactive prompts involved.
+docker compose up -d --wait
 xdg-open http://localhost
 open http://localhost
-rm -rf .env_prod.dist
 
-echo The Installation has been finished. Please try to call localhost in your browser
+echo '***********************************************************************************'
+echo 'The Installation has been finished. Please try to call localhost in your browser...'
+echo 'Initial admin credentials (shown once, change on first login):'
+echo '***********************************************************************************'
+docker logs backend_infopanel 2>&1 | grep -A 3 "Initial admin account created"
 read

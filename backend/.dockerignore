@@ -1,0 +1,9 @@
+.env
+.env.local
+.env.*.local
+var/
+vendor/
+node_modules/
+.git/
+.gitignore
+tests/

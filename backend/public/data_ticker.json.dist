@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "news": [
+        {
+            "id": "0000000000000001",
+            "content": "Hello Ticker News 1"
+        },
+        {
+            "id": "0000000000000002",
+            "content": "Hello Ticker News 2"
+        }
+    ]
+}
