@@ -1,0 +1,7 @@
+# Shell scripts must keep LF line endings regardless of the checkout
+# platform's core.autocrlf setting. A CRLF-terminated script breaks its
+# shebang inside Linux containers (e.g. backend/docker-entrypoint.sh,
+# COPYed into the backend image and run as ENTRYPOINT): "#!/bin/sh\r" is
+# not a valid interpreter path, and Docker reports this as the script
+# itself being missing.
+*.sh text eol=lf

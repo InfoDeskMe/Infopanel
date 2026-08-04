@@ -7,9 +7,12 @@ if not exist .env (
     echo Generating random database credentials and app secret...
     rem hex, not base64: MYSQL_PASSWORD ends up embedded in a DATABASE_URL
     rem docker-compose.yml builds, where base64's '+' and '/' would corrupt it.
-    for /f "delims=" %%i in ('powershell -NoProfile -Command "-join ([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(24) | ForEach-Object { $_.ToString('x2') })"') do set GEN_ROOT_PW=%%i
-    for /f "delims=" %%i in ('powershell -NoProfile -Command "-join ([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(24) | ForEach-Object { $_.ToString('x2') })"') do set GEN_USER_PW=%%i
-    for /f "delims=" %%i in ('powershell -NoProfile -Command "-join ([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(16) | ForEach-Object { $_.ToString('x2') })"') do set GEN_APP_SECRET=%%i
+    rem RandomNumberGenerator]::GetBytes(int) is a .NET 6+ convenience overload
+    rem that doesn't exist in Windows PowerShell 5.1 (.NET Framework) -- use
+    rem ::Create().GetBytes(byte[]) instead, which works on both.
+    for /f "delims=" %%i in ('powershell -NoProfile -Command "$b=New-Object byte[](24); [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b); -join ($b | ForEach-Object { $_.ToString('x2') })"') do set GEN_ROOT_PW=%%i
+    for /f "delims=" %%i in ('powershell -NoProfile -Command "$b=New-Object byte[](24); [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b); -join ($b | ForEach-Object { $_.ToString('x2') })"') do set GEN_USER_PW=%%i
+    for /f "delims=" %%i in ('powershell -NoProfile -Command "$b=New-Object byte[](16); [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b); -join ($b | ForEach-Object { $_.ToString('x2') })"') do set GEN_APP_SECRET=%%i
     (
         echo MYSQL_ROOT_PASSWORD=!GEN_ROOT_PW!
         echo MYSQL_DATABASE=symfony_docker
